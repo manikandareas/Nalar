@@ -1,16 +1,15 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import {
   Authenticated,
   Unauthenticated,
   useMutation,
   useQuery,
 } from "convex/react";
-import { api } from "../convex/_generated/api";
 import Link from "next/link";
-import { SignUpButton } from "@clerk/nextjs";
-import { SignInButton } from "@clerk/nextjs";
-import { UserButton } from "@clerk/nextjs";
+import { api } from "../convex/_generated/api";
 
 export default function Home() {
   return (
@@ -75,14 +74,14 @@ function Content() {
         is persisted in the Convex cloud database!
       </p>
       <p>
-        <button
-          className="bg-foreground text-background text-sm px-4 py-2 rounded-md"
+        <Button
+
           onClick={() => {
             void addNumber({ value: Math.floor(Math.random() * 10) });
           }}
         >
           Add a random number
-        </button>
+        </Button>
       </p>
       <p>
         Numbers:{" "}
