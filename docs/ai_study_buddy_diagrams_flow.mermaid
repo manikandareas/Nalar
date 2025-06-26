@@ -1,0 +1,184 @@
+graph TB
+    subgraph "1. SYSTEM ARCHITECTURE OVERVIEW"
+        A[User Interface] --> B[Authentication Layer]
+        B --> C[Application Logic]
+        C --> D[AI Service Layer]
+        C --> E[Database Layer]
+        D --> F[IBM Granite API]
+        E --> G[Firebase/Firestore]
+        
+        style A fill:#e1f5fe
+        style F fill:#fff3e0
+        style G fill:#f3e5f5
+    end
+
+    subgraph "2. USER ONBOARDING FLOW"
+        H[Landing Page] --> I[Sign Up/Login]
+        I --> J[Welcome Tutorial]
+        J --> K[Learning Style Assessment]
+        K --> L[Subject Selection]
+        L --> M[Initial Knowledge Test]
+        M --> N[Generate Personal Profile]
+        N --> O[Dashboard Setup]
+        
+        style H fill:#e8f5e8
+        style O fill:#e8f5e8
+    end
+
+    subgraph "3. AI TUTOR CHAT FLOW"
+        P[User Input Question] --> Q{Question Type?}
+        Q -->|Concept| R[Retrieve User Profile]
+        Q -->|Problem| S[Analyze Problem Context]
+        R --> T[Generate Explanation]
+        S --> T
+        T --> U[AI Processing via Granite]
+        U --> V[Generate Response]
+        V --> W{User Satisfied?}
+        W -->|No| X[Provide Alternative Explanation]
+        W -->|Yes| Y[Update Learning Progress]
+        X --> U
+        Y --> Z[Store Interaction Data]
+        
+        style P fill:#fff9c4
+        style U fill:#fff3e0
+        style Z fill:#f3e5f5
+    end
+
+    subgraph "4. ADAPTIVE ASSESSMENT FLOW"
+        AA[Start Assessment] --> BB[Load User Profile]
+        BB --> CC[Select Question Pool]
+        CC --> DD[Present Question]
+        DD --> EE[User Response]
+        EE --> FF[Evaluate Answer]
+        FF --> GG{Performance Level?}
+        GG -->|High| HH[Increase Difficulty]
+        GG -->|Low| II[Decrease Difficulty]
+        GG -->|Optimal| JJ[Maintain Level]
+        HH --> KK{More Questions?}
+        II --> KK
+        JJ --> KK
+        KK -->|Yes| DD
+        KK -->|No| LL[Generate Assessment Report]
+        LL --> MM[Update User Profile]
+        MM --> NN[Recommend Next Topics]
+        
+        style AA fill:#e3f2fd
+        style LL fill:#e8f5e8
+        style NN fill:#fff3e0
+    end
+
+    subgraph "5. LEARNING MODULE FLOW"
+        OO[Select Topic] --> PP[Check Prerequisites]
+        PP --> QQ{Prerequisites Met?}
+        QQ -->|No| RR[Suggest Prerequisite Topics]
+        QQ -->|Yes| SS[Load Topic Content]
+        SS --> TT[AI Generates Explanation]
+        TT --> UU[Present Multiple Formats]
+        UU --> VV[User Interaction]
+        VV --> WW[Practice Problems]
+        WW --> XX[Immediate Feedback]
+        XX --> YY{Understanding Confirmed?}
+        YY -->|No| ZZ[Alternative Teaching Method]
+        YY -->|Yes| AAA[Mark Topic Complete]
+        ZZ --> TT
+        AAA --> BBB[Update Progress]
+        BBB --> CCC[Suggest Next Topic]
+        
+        style OO fill:#f3e5f5
+        style TT fill:#fff3e0
+        style AAA fill:#e8f5e8
+    end
+
+    subgraph "6. PRACTICE PROBLEM GENERATOR FLOW"
+        DDD[Request Practice] --> EEE[Analyze Current Level]
+        EEE --> FFF[Select Problem Type]
+        FFF --> GGG[Generate Problem via AI]
+        GGG --> HHH[Present to User]
+        HHH --> III[User Attempts Solution]
+        III --> JJJ[Submit Answer]
+        JJJ --> KKK[AI Evaluates Response]
+        KKK --> LLL{Correct?}
+        LLL -->|Yes| MMM[Positive Reinforcement]
+        LLL -->|No| NNN[Provide Hints]
+        MMM --> OOO[Generate Next Problem]
+        NNN --> PPP{Hint Used?}
+        PPP -->|Yes| QQQ[Show Step-by-Step]
+        PPP -->|No| III
+        QQQ --> OOO
+        OOO --> RRR{Continue Practice?}
+        RRR -->|Yes| FFF
+        RRR -->|No| SSS[Session Summary]
+        SSS --> TTT[Update Performance Data]
+        
+        style DDD fill:#fff3e0
+        style GGG fill:#fff3e0
+        style TTT fill:#f3e5f5
+    end
+
+    subgraph "7. PERSONALIZED DASHBOARD DATA FLOW"
+        UUU[User Login] --> VVV[Fetch User Data]
+        VVV --> WWW[Calculate Progress Metrics]
+        WWW --> XXX[Generate Visualizations]
+        XXX --> YYY[AI Analyzes Patterns]
+        YYY --> ZZZ[Generate Recommendations]
+        ZZZ --> AAAA[Display Dashboard]
+        AAAA --> BBBB[User Interaction]
+        BBBB --> CCCC{Action Type?}
+        CCCC -->|Start Learning| DDDD[Navigate to Learning Module]
+        CCCC -->|View Progress| EEEE[Show Detailed Analytics]
+        CCCC -->|Settings| FFFF[Profile Management]
+        
+        style UUU fill:#e1f5fe
+        style YYY fill:#fff3e0
+        style AAAA fill:#e8f5e8
+    end
+
+    subgraph "8. STUDY SESSION PLANNER FLOW"
+        GGGG[Access Planner] --> HHHH[Analyze Learning History]
+        HHHH --> IIII[Check Available Time Slots]
+        IIII --> JJJJ[AI Calculates Optimal Schedule]
+        JJJJ --> KKKK[Apply Spaced Repetition]
+        KKKK --> LLLL[Generate Session Plan]
+        LLLL --> MMMM[Present to User]
+        MMMM --> NNNN{User Accepts?}
+        NNNN -->|Yes| OOOO[Set Reminders]
+        NNNN -->|No| PPPP[Modify Schedule]
+        PPPP --> JJJJ
+        OOOO --> QQQQ[Execute Session]
+        QQQQ --> RRRR[Track Completion]
+        RRRR --> SSSS[Update Algorithm]
+        
+        style GGGG fill:#f3e5f5
+        style JJJJ fill:#fff3e0
+        style SSSS fill:#e8f5e8
+    end
+
+    subgraph "9. DATA FLOW & FEEDBACK LOOP"
+        TTTT[User Interactions] --> UUUU[Real-time Data Collection]
+        UUUU --> VVVV[Performance Analytics]
+        VVVV --> WWWW[AI Pattern Recognition]
+        WWWW --> XXXX[Model Updates]
+        XXXX --> YYYY[Improved Recommendations]
+        YYYY --> ZZZZ[Enhanced User Experience]
+        ZZZZ --> TTTT
+        
+        style TTTT fill:#e1f5fe
+        style WWWW fill:#fff3e0
+        style ZZZZ fill:#e8f5e8
+    end
+
+    subgraph "10. ERROR HANDLING & FALLBACK FLOW"
+        AAAAA[System Error] --> BBBBB{Error Type?}
+        BBBBB -->|AI API Error| CCCCC[Use Cached Response]
+        BBBBB -->|Network Error| DDDDD[Offline Mode]
+        BBBBB -->|Data Error| EEEEE[Default Fallback]
+        CCCCC --> FFFFF[Log Error]
+        DDDDD --> FFFFF
+        EEEEE --> FFFFF
+        FFFFF --> GGGGG[Retry Mechanism]
+        GGGGG --> HHHHH[Restore Normal Operation]
+        
+        style AAAAA fill:#ffebee
+        style FFFFF fill:#fff3e0
+        style HHHHH fill:#e8f5e8
+    end
