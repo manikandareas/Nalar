@@ -5,25 +5,32 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { api } from "@/convex/_generated/api"
-import { useMutation } from "convex/react"
+import { useCreateThread } from "@/features/chat/hooks/use-create-thread"
 import { Brain, Flame, Loader2, SendHorizonal, Target, TrendingUp } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
+/**
+ * Home page component with chat creation functionality
+ */
 export default function HomePage() {
     const [prompt, setPrompt] = useState("")
-    const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
-    const createThread = useMutation(api.chat.mutations.createThread);
+    const { createThread, isLoading, error } = useCreateThread();
 
-    const handleCreateThread = (e: React.FormEvent) => {
+    const handleCreateThread = async (e: React.FormEvent) => {
         e.preventDefault()
         if (prompt.trim() === "") return;
-        setIsLoading(true);
-        void createThread({ prompt }).then((newId) => {
-            router.push(`/rooms/${newId}`)
-        }).catch(() => setPrompt(prompt)).finally(() => setIsLoading(false));
+        
+        try {
+            const newId = await createThread(prompt);
+            if (newId) {
+                router.push(`/rooms/${newId}`)
+            }
+        } catch (err) {
+            // Keep the prompt if there was an error
+            console.error("Failed to create thread:", err);
+        }
     }
 
     return (<>

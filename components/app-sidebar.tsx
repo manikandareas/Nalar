@@ -92,7 +92,7 @@ export function AppSidebar() {
                                             <SidebarMenuItem key={r.threadId}>
                                                 <SidebarMenuButton asChild className="ml-6">
                                                     <Link href={`/rooms/${r.threadId}`} className="text-gray-500 ">
-                                                        <span className="line-clamp-1">{r.title}</span>
+                                                        <span className="line-clamp-1 capitalize">{r.title.toLowerCase()}</span>
                                                     </Link>
                                                 </SidebarMenuButton>
                                             </SidebarMenuItem>

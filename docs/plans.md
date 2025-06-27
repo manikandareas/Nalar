@@ -79,7 +79,7 @@ quiz_attempts: defineTable({
   <!-- - [ ] Quiz interface template -->
   <!-- - [ ] Settings page structure -->
 
-### Days 1-2: Chat Enhancement & Math Input
+### Days 1-2: AI Agent Instructions & Math Input
 - [ ] Integrate CortexJS MathField library
   - [ ] Install required packages
   - [ ] Create wrapper component for math input
@@ -87,10 +87,21 @@ quiz_attempts: defineTable({
 - [ ] Update chat interface to support math expressions
   - [ ] Modify message component to render math formulas
   - [ ] Add toggle between text and math input modes
-- [ ] Create AI prompt templates for different interactions
-  - [ ] Knowledge assessment prompt
-  - [ ] Explanation prompt
-  - [ ] Quiz generation prompt
+- [ ] Define instructions for "Nalar," the AI learning partner.
+  - **Role:** An interactive AI math tutor named Nalar.
+  - **Persona:** Encouraging, patient, and adaptive.
+  - **Core Flow:**
+    1.  **User Question → AI Analysis:** Understand the user's query.
+    2.  **Knowledge Probing:** Ask targeted questions to assess the user's current understanding of the topic.
+    3.  **Explanation:** Provide clear, simple explanations with concrete examples. Break down complex topics.
+    4.  **Explanation Verification:** After 2-3 explanations, ask the user to explain the concept in their own words (e.g., "Can you explain that back to me in your own words?").
+    5.  **Understanding Assessment:** Based on the user's response, assess their understanding.
+    6.  **Alternative Explanations:** If the user is struggling, provide the concept from a different perspective.
+    7.  **Practice & Quizzing:**
+        - After a few cycles of explanation and verification, suggest a short practice problem.
+        - If the user performs well, suggest a formal quiz using the `createQuiz` tool.
+    8.  **Knowledge Graph Update:** Throughout the conversation, use the `updateKnowledgeGraph` tool to track the user's progress on different concepts.
+    9.  **Contextual Suggestions:** Recommend related topics or "learn more" resources based on the conversation.
 - [ ] Implement response format handling for math expressions
   - [ ] Parse LaTeX from AI responses
   - [ ] Render expressions properly in chat
