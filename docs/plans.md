@@ -1,0 +1,218 @@
+# Nalar Project: 10-Day Implementation Plan
+
+## Project Overview
+A personalized AI study buddy with interactive chat, quiz functionality, and knowledge tracking, designed to help users learn and understand subjects through conversation and assessment.
+
+## Core Features
+
+### 1. Interactive AI Chat
+- Math-enabled chat interface (using CortexJS for math input)
+- AI agent that can:
+  - Ask users about their knowledge
+  - Allow users to explain concepts in their own words
+  - Provide alternative explanations
+  - Suggest learning paths
+  - Generate quizzes based on conversation
+  
+### 2. Quiz System
+- Multiple choice and True/False questions
+- Immediate feedback after answering each question
+- Question generation based on topics discussed in chat
+- Quiz history tracking
+
+### 3. Knowledge Graph (Simplified)
+- Topic representation with understanding level
+- Connections between related topics
+- Visual representation of user's knowledge landscape
+- AI-generated updates based on chat interactions and quiz results
+
+### 4. Onboarding Flow
+- Learning goals collection
+- Current knowledge level assessment
+- Study reason identification
+- User study plan preferences
+- Simple learning plan generation
+
+### 5. Aside Panel
+- Quiz history with scores and dates
+- Basic progress indicators
+
+## Database Schema Extensions
+
+```typescript
+// For quizzes
+quizzes: defineTable({
+  userId: v.id("users"),
+  title: v.string(),
+  topic: v.string(),
+  createdAt: v.number(),
+  questions: v.array(v.object({
+    questionText: v.string(),
+    options: v.array(v.string()),
+    correctOptionIndex: v.number(),
+    explanation: v.string(),
+    type: v.union(v.literal("multiple_choice"), v.literal("true_false")),
+  })),
+}).index("by_userId", ["userId"]),
+
+// For quiz attempts
+quiz_attempts: defineTable({
+  userId: v.id("users"),
+  quizId: v.id("quizzes"),
+  startedAt: v.number(),
+  completedAt: v.optional(v.number()),
+  score: v.optional(v.number()),
+  answers: v.array(v.object({
+    questionIndex: v.number(),
+    selectedOptionIndex: v.number(),
+    isCorrect: v.boolean(),
+  })),
+}).index("by_userId", ["userId"]),
+```
+
+## Day-by-Day Implementation Plan
+
+### Day 0: Basic Page Templates
+- [X] Create basic page templates
+  - [X] Dashboard/Home page layout
+  - [X] Chat interface template
+  <!-- - [ ] Quiz interface template -->
+  <!-- - [ ] Settings page structure -->
+
+### Days 1-2: Chat Enhancement & Math Input
+- [ ] Integrate CortexJS MathField library
+  - [ ] Install required packages
+  - [ ] Create wrapper component for math input
+  - [ ] Style the math input field
+- [ ] Update chat interface to support math expressions
+  - [ ] Modify message component to render math formulas
+  - [ ] Add toggle between text and math input modes
+- [ ] Create AI prompt templates for different interactions
+  - [ ] Knowledge assessment prompt
+  - [ ] Explanation prompt
+  - [ ] Quiz generation prompt
+- [ ] Implement response format handling for math expressions
+  - [ ] Parse LaTeX from AI responses
+  - [ ] Render expressions properly in chat
+
+### Days 3-4: Quiz System
+- [ ] Extend database schema for quizzes
+  - [ ] Add quiz tables to schema
+  - [ ] Create model types for quiz data
+- [ ] Implement quiz generation function in AI agent
+  - [ ] Create function to generate quiz questions
+  - [ ] Add quiz topic extraction from conversation
+  - [ ] Implement difficulty adjustment based on user level
+- [ ] Build quiz UI components
+  - [ ] Quiz start interface
+  - [ ] Question display component
+  - [ ] Option selection interface
+  - [ ] Results and feedback display
+- [ ] Develop quiz flow
+  - [ ] Question navigation
+  - [ ] Answer submission
+  - [ ] Immediate feedback mechanism
+  - [ ] Final score calculation and display
+- [ ] Implement quiz history storage
+  - [ ] Save completed quizzes
+  - [ ] Store user responses and scores
+
+### Days 5-6: Knowledge Graph & Visualization
+- [ ] Enhance knowledge node system
+  - [ ] Implement topic extraction from chat
+  - [ ] Create function to update understanding level based on quiz results
+  - [ ] Add relationship mapping between topics
+- [ ] Build knowledge graph visualization
+  - [ ] Select and integrate visualization library
+  - [ ] Create force-directed graph component
+  - [ ] Add node styling based on understanding level
+  - [ ] Implement zoom and pan functionality
+- [ ] Develop graph update mechanism
+  - [ ] Create AI tool for updating knowledge graph
+  - [ ] Implement triggers for graph updates (after quiz, key chat moments)
+  - [ ] Add real-time visualization updates
+
+### Day 7: Onboarding Refinement
+- [ ] Enhance existing onboarding flow
+  - [ ] Update user profile schema if needed
+  - [ ] Refine onboarding UI components
+  - [ ] Improve form validation
+- [ ] Add learning plan generation
+  - [ ] Create AI prompt for learning plan creation
+  - [ ] Implement plan display component
+  - [ ] Store plan in user profile
+- [ ] Create personal dashboard with plan
+  - [ ] Build dashboard layout
+  - [ ] Add learning plan display
+  - [ ] Create quick access to quizzes and chats
+
+### Day 8: Aside Panel & History
+- [ ] Develop quiz history panel
+  - [ ] Create history list component
+  - [ ] Display quiz scores and dates
+  - [ ] Add quiz details expansion
+- [ ] Implement progress indicators
+  - [ ] Design progress visualization
+  - [ ] Create topic progress component
+  - [ ] Build overall progress summary
+- [ ] Add history features
+  - [ ] Implement filtering and sorting
+  - [ ] Add quick quiz retry functionality
+  - [ ] Create topic-based history grouping
+
+### Day 9: Integration & Testing
+- [ ] Connect all components into cohesive flow
+  - [ ] Link chat to quiz generation
+  - [ ] Connect quiz results to knowledge graph
+  - [ ] Integrate history with dashboard
+- [ ] Perform end-to-end testing
+  - [ ] Test user journeys
+  - [ ] Verify data persistence
+  - [ ] Check responsive design
+- [ ] Fix bugs and edge cases
+  - [ ] Handle error states
+  - [ ] Implement fallbacks
+  - [ ] Test different input scenarios
+
+### Day 10: Polish & Documentation
+- [ ] UI/UX refinements
+  - [ ] Improve visual consistency
+  - [ ] Add transitions and animations
+  - [ ] Enhance accessibility
+- [ ] Add loading states
+  - [ ] Implement skeleton loaders
+  - [ ] Add progress indicators
+  - [ ] Create smooth loading transitions
+- [ ] Write documentation
+  - [ ] Document code and components
+  - [ ] Create user guides
+  - [ ] Write API documentation
+- [ ] Final testing
+  - [ ] Test across different devices
+  - [ ] Verify performance
+  - [ ] Conduct final bug sweep
+
+## Key Technical Components
+
+1. **AI Agent Tools**
+   - `createQuiz`: Generates quiz based on topics discussed or specified by user
+   - `updateKnowledgeGraph`: Updates knowledge nodes based on chat/quiz interactions
+
+2. **UI Components**
+   - Math input field using CortexJS
+   - Knowledge graph visualization (simplified force-directed graph)
+   - Quiz interface with immediate feedback
+   - Chat with support for math expressions
+
+3. **Data Flow**
+   - User chat interactions trigger knowledge assessment
+   - Knowledge updates reflected in graph visualization
+   - Quiz results update understanding levels
+   - History panel shows learning progress
+
+## Future Extensions (Post 10 Days)
+- Advanced adaptive quiz difficulty
+- Comprehensive progress tracking
+- Gamification elements (badges, streaks)
+- Study planning and scheduling
+- Additional quiz types (fill-in-blank, free response)
