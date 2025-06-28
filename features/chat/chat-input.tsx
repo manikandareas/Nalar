@@ -5,11 +5,11 @@ import type React from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Toggle } from "@/components/ui/toggle"
-import { Calculator, Loader2, SendHorizonal, Type, Info } from "lucide-react"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Calculator, Info, Loader2, SendHorizonal, Type } from "lucide-react"
 import { useState } from "react"
 import { useChat } from "./hooks/use-chat"
 import { MathInput } from "./math-input"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 /**
  * Props for the ChatInput component
@@ -58,7 +58,7 @@ export const ChatInput: React.FC<IChatInputProps> = ({ threadId }) => {
     };
 
     return (
-        <div className="border-t border-gray-200 bg-white p-4 shadow-md">
+        <div className="border-t border-gray-200 bg-white p-4 shadow-md z-50 max-w-4xl fixed bottom-0 w-full">
             <div className="max-w-4xl mx-auto">
                 {/* Input mode selection with tooltips */}
                 <div className="flex justify-between items-center mb-3">
@@ -75,7 +75,7 @@ export const ChatInput: React.FC<IChatInputProps> = ({ threadId }) => {
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
-                    
+
                     <div className="flex space-x-2">
                         <Toggle
                             pressed={inputMode === 'text'}
@@ -139,11 +139,11 @@ export const ChatInput: React.FC<IChatInputProps> = ({ threadId }) => {
                         )}
                     </Button>
                 </form>
-                
+
                 {/* Typing hint */}
                 <div className="mt-2 text-xs text-gray-400 text-center">
-                    {inputMode === 'text' ? 
-                        "Tekan Enter untuk kirim, Shift+Enter untuk baris baru" : 
+                    {inputMode === 'text' ?
+                        "Tekan Enter untuk kirim, Shift+Enter untuk baris baru" :
                         "Gunakan sintaks LaTeX untuk ekspresi matematika"}
                 </div>
             </div>

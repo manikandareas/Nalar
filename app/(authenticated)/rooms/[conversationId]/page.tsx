@@ -13,9 +13,9 @@ interface IConversationPageProps {
 const ConversationPage: React.FC<IConversationPageProps> = async (props) => {
     const { conversationId } = await props.params
     return (
-        <Container className="h-[calc(100vh-1rem)] ">
+        <Container className="min-h-[calc(100vh-1rem)] relative">
             <ChatHeader />
-            <MainContent className="max-w-4xl">
+            <MainContent className="max-w-4xl relative">
                 <MessagesArea threadId={conversationId} />
                 <ChatInput threadId={conversationId} />
             </MainContent>
