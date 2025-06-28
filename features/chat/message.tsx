@@ -6,7 +6,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { cn } from "@/lib/utils";
 import { UIMessage, useSmoothText } from "@convex-dev/agent/react";
 import { Bot, Copy, User } from 'lucide-react';
-import type React from "react";
+import React from "react";
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -175,7 +175,10 @@ export const Message: React.FC<MessageProps> = (props) => {
                                 },
                                 // Paragraph styling
                                 p({ children, ...props }: MarkdownComponentProps) {
-                                    return <p className="mb-4" {...props}>{children}</p>;
+                                    // To avoid hydration errors with nested divs in paragraphs,
+                                    // we always use a div with paragraph styling instead of an actual p tag
+                                    // This is safer and prevents the "div cannot be a descendant of p" error
+                                    return <div className="mb-4 paragraph" {...props}>{children}</div>;
                                 },
                                 // Blockquote styling
                                 blockquote({ children, ...props }: MarkdownComponentProps) {

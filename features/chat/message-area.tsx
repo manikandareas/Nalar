@@ -1,7 +1,8 @@
 "use client"
 
-import { Loader2 } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { ChevronDown, Loader2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useChat } from "./hooks/use-chat";
 import { Message } from "./message";
 
@@ -17,13 +18,100 @@ interface IMessageAreaProps {
  */
 export const MessagesArea: React.FC<IMessageAreaProps> = ({ threadId }) => {
     const { messages, isLoadingMessages, sendInitialMessage, roomDetails } = useChat(threadId);
-    const scrollAreaRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    // Auto-scroll to bottom when new messages arrive
+    // State for scroll management
+    const [showScrollButton, setShowScrollButton] = useState(false);
+
+    // Refs for tracking scroll behavior
+    const isNearBottomRef = useRef(true);
+    const prevMessagesLengthRef = useRef(0);
+    const userHasScrolledRef = useRef(false);
+    const lastMessageRoleRef = useRef<string | null>(null);
+
+    /**
+     * Scrolls to the bottom of the chat smoothly
+     */
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        setShowScrollButton(false);
+        isNearBottomRef.current = true;
+        userHasScrolledRef.current = false;
+    };
+
+    /**
+     * Checks if the user is near the bottom of the chat
+     * @returns boolean indicating if user is within 100px of bottom
+     */
+    const checkIfNearBottom = (): boolean => {
+        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+        const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+        return distanceFromBottom < 100; // Consider "near bottom" if within 100px
+    };
+
+    /**
+     * Handle scroll events to show/hide the scroll button
+     */
     useEffect(() => {
-        if (scrollAreaRef.current) {
-            const scrollContainer = scrollAreaRef.current;
-            scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        const handleScroll = () => {
+            const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+            const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+            const isScrolledUp = distanceFromBottom > 200;
+
+            // Update scroll state
+            if (isScrolledUp && !userHasScrolledRef.current) {
+                userHasScrolledRef.current = true;
+            }
+
+            // Update button visibility
+            setShowScrollButton(isScrolledUp);
+            isNearBottomRef.current = !isScrolledUp;
+        };
+
+        // Add scroll listener with throttling for better performance
+        let scrollTimeout: ReturnType<typeof setTimeout> | null = null;
+        const throttledScrollHandler = () => {
+            if (!scrollTimeout) {
+                scrollTimeout = setTimeout(() => {
+                    handleScroll();
+                    scrollTimeout = null;
+                }, 100); // Throttle to 100ms
+            }
+        };
+
+        window.addEventListener('scroll', throttledScrollHandler, { passive: true });
+        return () => {
+            window.removeEventListener('scroll', throttledScrollHandler);
+            if (scrollTimeout) clearTimeout(scrollTimeout);
+        };
+    }, []);
+
+    /**
+     * Handle auto-scrolling for different scenarios
+     */
+    useEffect(() => {
+        if (messages.length === 0) return;
+
+        const messagesLength = messages.length;
+        const hasNewMessages = messagesLength > prevMessagesLengthRef.current;
+        const lastMessage = messages[messagesLength - 1];
+        const isUserMessage = lastMessage?.role === 'user';
+        const isNewUserMessage = isUserMessage && lastMessageRoleRef.current !== 'user';
+
+        // Update tracking refs
+        prevMessagesLengthRef.current = messagesLength;
+        lastMessageRoleRef.current = lastMessage?.role || null;
+
+        // Case 1: User sends a new message - always scroll to bottom
+        if (isNewUserMessage) {
+            scrollToBottom();
+            return;
+        }
+
+        // Case 2: New AI message - scroll only if user is near bottom or hasn't manually scrolled
+        if (hasNewMessages && (isNearBottomRef.current || !userHasScrolledRef.current)) {
+            scrollToBottom();
         }
     }, [messages]);
 
@@ -37,8 +125,20 @@ export const MessagesArea: React.FC<IMessageAreaProps> = ({ threadId }) => {
             {/* Background pattern for chat area */}
             <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white opacity-50 pointer-events-none" />
 
-            {/* <ScrollArea className="h-full w-full" ref={scrollAreaRef}> */}
-            <div className="w-full py-8 relative z-10">
+            {/* Scroll to bottom button */}
+            {showScrollButton && (
+                <Button
+                    onClick={scrollToBottom}
+                    className="fixed bottom-28 right-8 z-50 rounded-full w-10 h-10 p-0 shadow-lg"
+                    size={"icon"}
+                    variant={"outline"}
+                    aria-label="Scroll to bottom"
+                >
+                    <ChevronDown className="h-5 w-5" />
+                </Button>
+            )}
+
+            <div className="w-full py-8 relative z-10" ref={containerRef}>
                 {/* Welcome message at the top */}
                 <div className="text-center mb-8 px-4">
                     <h2 className="text-xl font-semibold text-gray-700 mb-2">Nalar AI Learning Partner</h2>
@@ -74,8 +174,10 @@ export const MessagesArea: React.FC<IMessageAreaProps> = ({ threadId }) => {
                         </p>
                     </div>
                 )}
+
+                {/* Invisible div at the bottom for scrolling */}
+                <div ref={messagesEndRef} />
             </div>
-            {/* </ScrollArea> */}
         </div>
     );
 }
