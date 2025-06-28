@@ -1,26 +1,26 @@
 "use client"
 
+import { MathRenderer } from "@/components/math-renderer";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { UIMessage, useSmoothText } from "@convex-dev/agent/react";
+import { Bot, Copy, User } from 'lucide-react';
 import type React from "react";
+import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import remarkGfm from "remark-gfm";
-import remarkMath from 'remark-math';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { Bot, Copy, User } from 'lucide-react';
-import { useState } from 'react';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { MathRenderer } from "@/components/math-renderer";
+import remarkGfm from "remark-gfm";
+import remarkMath from 'remark-math';
 
 // Define a generic type for ReactMarkdown components
 type MarkdownComponentProps = {
-  node?: any;
-  inline?: boolean;
-  className?: string;
-  children?: React.ReactNode;
-  [key: string]: any;
+    node?: any;
+    inline?: boolean;
+    className?: string;
+    children?: React.ReactNode;
+    [key: string]: any;
 };
 
 /**
@@ -38,7 +38,7 @@ export const Message: React.FC<MessageProps> = (props) => {
     const [visibleText] = useSmoothText(content);
     const isUser = role === "user";
     const [copied, setCopied] = useState(false);
-    
+
     // Function to copy message content to clipboard
     const copyToClipboard = () => {
         navigator.clipboard.writeText(content);
@@ -49,7 +49,7 @@ export const Message: React.FC<MessageProps> = (props) => {
     return (
         <div className={cn("group relative mb-6 px-4", className)}>
             <div className={cn(
-                "flex gap-3 max-w-4xl mx-auto", 
+                "flex gap-3 max-w-4xl mx-auto",
                 isUser ? "justify-end" : "justify-start"
             )}>
                 {/* AI Avatar - only shown for AI messages */}
@@ -65,8 +65,8 @@ export const Message: React.FC<MessageProps> = (props) => {
                 <div
                     className={cn(
                         "max-w-[85%] sm:max-w-[80%] lg:max-w-[75%] relative group/message",
-                        isUser 
-                            ? "bg-zinc-100/50 backdrop-blur-sm rounded-2xl rounded-br-md px-4 py-3" 
+                        isUser
+                            ? "bg-zinc-100/50 backdrop-blur-sm rounded-2xl rounded-br-md px-4 py-3"
                             : "bg-white/5 w-full border-b border-gray-200 pb-6",
                     )}
                 >
@@ -75,7 +75,7 @@ export const Message: React.FC<MessageProps> = (props) => {
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <button 
+                                    <button
                                         onClick={copyToClipboard}
                                         className="absolute right-2 top-2 opacity-0 group-hover/message:opacity-100 transition-opacity p-1 rounded-md hover:bg-gray-100"
                                         aria-label="Copy message"
@@ -99,19 +99,19 @@ export const Message: React.FC<MessageProps> = (props) => {
                                 code({ node, inline, className, children, ...props }: MarkdownComponentProps) {
                                     const match = /language-(\w+)/.exec(className || '');
                                     const language = match && match[1];
-                                    
+
                                     // Handle math blocks specially
                                     if (language === 'math') {
                                         const value = String(children).replace(/\n$/, '');
                                         return <MathRenderer math={value} display={true} />;
                                     }
-                                    
+
                                     // Handle inline math
                                     if (inline && className === 'math-inline') {
                                         const value = String(children).replace(/\n$/, '');
                                         return <MathRenderer math={value} display={false} />;
                                     }
-                                    
+
                                     // Regular code blocks
                                     return !inline && match ? (
                                         <div className="rounded-md overflow-hidden my-2 shadow-sm">
@@ -149,6 +149,9 @@ export const Message: React.FC<MessageProps> = (props) => {
                                 },
                                 td({ children, ...props }: MarkdownComponentProps) {
                                     return <td className="border border-gray-300 px-4 py-2" {...props}>{children}</td>;
+                                },
+                                hr({ ...props }: MarkdownComponentProps) {
+                                    return <hr className=" my-6" {...props} />;
                                 },
                                 // List styling
                                 ul({ children, ...props }: MarkdownComponentProps) {
