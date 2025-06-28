@@ -1,18 +1,42 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from 'react';
-// Import both the type and the actual class
-import { MathfieldElement } from 'mathlive';
 // Import styles
 import './math-input.css';
+
+// Define a type for the MathfieldElement
+interface MathfieldElementType extends HTMLElement {
+  value: string;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject): void;
+}
 
 // Register the web component
 if (typeof window !== 'undefined') {
   // Only register in browser environment
-  import('mathlive').then(({ MathfieldElement }) => {
-    if (!customElements.get('math-field')) {
-      customElements.define('math-field', MathfieldElement);
+  // Dynamic import to avoid SSR issues
+  import('mathlive').then((mathliveModule) => {
+    try {
+      // Handle different export patterns in mathlive
+      const MathfieldElement = 
+        // @ts-ignore - Different module structures in different versions
+        mathliveModule.MathfieldElement || 
+        // @ts-ignore - Different module structures in different versions
+        mathliveModule.default?.MathfieldElement || 
+        // @ts-ignore - Different module structures in different versions
+        mathliveModule.default;
+      
+      if (MathfieldElement && !customElements.get('math-field')) {
+        customElements.define('math-field', MathfieldElement);
+        console.log('MathfieldElement registered successfully');
+      } else {
+        console.warn('MathfieldElement not found or already registered');
+      }
+    } catch (error) {
+      console.error('Error registering MathfieldElement:', error);
     }
+  }).catch(error => {
+    console.error('Failed to load mathlive:', error);
   });
 }
 
@@ -34,7 +58,7 @@ export const MathInput: React.FC<MathInputProps> = ({
   className = "",
   onSubmit
 }) => {
-  const mathfieldRef = useRef<MathfieldElement>(null);
+  const mathfieldRef = useRef<MathfieldElementType>(null);
   const [isFocused, setIsFocused] = useState(false);
 
   // Initialize mathfield
@@ -43,20 +67,22 @@ export const MathInput: React.FC<MathInputProps> = ({
     if (!mathfield) return;
 
     // Set initial value
-    if (value && mathfield instanceof MathfieldElement) {
+    if (value && mathfield) {
       mathfield.value = value;
     }
 
     // Add event listeners
     const handleInput = () => {
-      if (mathfield instanceof MathfieldElement) {
+      if (mathfield) {
         onChange(mathfield.value);
       }
     };
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Enter' && !e.shiftKey && onSubmit) {
-        e.preventDefault();
+    const handleKeyDown = (e: Event) => {
+      // Cast to KeyboardEvent to access keyboard-specific properties
+      const keyEvent = e as unknown as KeyboardEvent;
+      if (keyEvent.key === 'Enter' && !keyEvent.shiftKey && onSubmit) {
+        keyEvent.preventDefault();
         onSubmit();
       }
     };

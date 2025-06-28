@@ -3,6 +3,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Geist_Mono, Outfit } from "next/font/google";
 import "./globals.css";
+// Import KaTeX CSS for math rendering
+import 'katex/dist/katex.min.css';
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",

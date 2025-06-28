@@ -80,14 +80,14 @@ quiz_attempts: defineTable({
   <!-- - [ ] Settings page structure -->
 
 ### Days 1-2: AI Agent Instructions & Math Input
-- [ ] Integrate CortexJS MathField library
-  - [ ] Install required packages
-  - [ ] Create wrapper component for math input
-  - [ ] Style the math input field
-- [ ] Update chat interface to support math expressions
-  - [ ] Modify message component to render math formulas
-  - [ ] Add toggle between text and math input modes
-- [ ] Define instructions for "Nalar," the AI learning partner.
+- [X] Integrate CortexJS MathField library
+  - [X] Install required packages
+  - [X] Create wrapper component for math input
+  - [X] Style the math input field
+- [X] Update chat interface to support math expressions
+  - [X] Modify message component to render math formulas
+  - [X] Add toggle between text and math input modes
+- [X] Define instructions for "Nalar," the AI learning partner.
   - **Role:** An interactive AI math tutor named Nalar.
   - **Persona:** Encouraging, patient, and adaptive.
   - **Core Flow:**
