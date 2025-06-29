@@ -118,7 +118,7 @@ export const MessagesArea: React.FC<IMessageAreaProps> = ({ threadId }) => {
     // Send initial message when room details are available
     useEffect(() => {
         sendInitialMessage();
-    }, [roomDetails, sendInitialMessage]);
+    }, [roomDetails]);
 
     return (
         <div className="w-full mb-28">

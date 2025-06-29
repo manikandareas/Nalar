@@ -5,16 +5,14 @@ import { embed } from "ai";
 import { components } from "./_generated/api";
 
 // Import the Nalar system prompt
-import { NALAR_SYSTEM_PROMPT } from "../features/chat/ai-instructions";
+import { NALAR_SYSTEM_PROMPT } from "./ai-instructions";
+import { createQuizTool } from "./quizzes/agent";
 
-const MAIN_MODEL: LanguageModelV1 = openai.chat("gpt-4.1-mini-2025-04-14");
+export const MAIN_MODEL: LanguageModelV1 = openai.chat("gpt-4.1-mini");
+
+export const GENERATE_QUIZ_MODEL: LanguageModelV1 = openai.chat("gpt-4.1");
+
 const textEmbedding: EmbeddingModel<string> = openai.textEmbeddingModel("text-embedding-3-small",);
-
-// const watsonxProvider = createWatsonxProvider({
-//     projectId: "",
-// })
-
-// const GRANITE_MODEL: LanguageModelV1 = watsonxProvider.chat("google/flan-t5-xxl")
 
 export const embedText = async (text: string) => {
     const { embedding } = await embed({
@@ -31,10 +29,13 @@ export const nalarAgent = new Agent(components.agent, {
     maxSteps: 3,
     instructions: NALAR_SYSTEM_PROMPT,
     contextOptions: {
+        excludeToolMessages: false,
         searchOptions: {
             limit: 5,
             messageRange: { before: 2, after: 1 },
         },
     },
-    tools: {},
+    tools: {
+        createQuizTool
+    },
 });

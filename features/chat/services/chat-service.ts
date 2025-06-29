@@ -1,7 +1,6 @@
 import { api } from "@/convex/_generated/api";
 import { optimisticallySendMessage, useThreadMessages } from "@convex-dev/agent/react";
 import { useMutation, useQuery } from "convex/react";
-import { getNalarSystemPrompt } from "../ai-instructions";
 
 /**
  * Service for handling chat-related API calls

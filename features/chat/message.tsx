@@ -6,8 +6,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { cn } from "@/lib/utils";
 import { UIMessage, useSmoothText } from "@convex-dev/agent/react";
 import { Bot, Copy, User } from 'lucide-react';
-import React from "react";
-import { useState } from 'react';
+import React, { useState } from "react";
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -34,7 +33,7 @@ interface MessageProps extends UIMessage {
  * Message component that displays a chat message with proper styling based on the sender
  */
 export const Message: React.FC<MessageProps> = (props) => {
-    const { content, role, className } = props;
+    const { content, role, className, parts } = props;
     const [visibleText] = useSmoothText(content);
     const isUser = role === "user";
     const [copied, setCopied] = useState(false);
@@ -45,6 +44,7 @@ export const Message: React.FC<MessageProps> = (props) => {
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
+    console.log({ parts })
 
     return (
         <div className={cn("group relative mb-6 px-4", className)}>

@@ -49,7 +49,6 @@ export const useChat = (threadId: string) => {
         isLoading,
         error,
         sendMessage: sendChatMessage,
-        // Simple loading state for messages
         isLoadingMessages: isLoading,
         sendInitialMessage,
     };

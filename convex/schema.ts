@@ -51,6 +51,64 @@ const schema = defineSchema({
 		lastUpdated: v.number(),
 		connections: v.array(v.id("knowledge_nodes")), // related topics
 	}).index("by_userId", ["userId"]),
+
+	// QUIZZES
+	quizzes: defineTable({
+		userId: v.id("users"),
+		threadId: v.string(),
+		title: v.string(),
+		description: v.optional(v.string()),
+		topic: v.string(),
+		difficulty: v.union(
+			v.literal("easy"),
+			v.literal("medium"),
+			v.literal("hard")
+		),
+		completedAt: v.optional(v.number()),
+		timeSpentSeconds: v.optional(v.number()),
+		score: v.optional(v.number()), // 0-100
+		status: v.optional(
+			v.union(
+				v.literal("pending"),
+				v.literal("in_progress"),
+				v.literal("completed")
+			),
+		)
+	})
+		.index("by_userId", ["userId"])
+		.index("by_threadId", ["threadId"]),
+
+	// QUIZ QUESTIONS
+	quiz_questions: defineTable({
+		quizId: v.id("quizzes"),
+		questionNumber: v.number(),
+		question: v.string(),
+		options: v.array(v.string()),
+		correctOptionIndex: v.number(),
+		explanation: v.string(),
+		type: v.union(
+			v.literal("multiple_choice"),
+			v.literal("true_false")
+		),
+		difficulty: v.union(
+			v.literal("easy"),
+			v.literal("medium"),
+			v.literal("hard")
+		),
+	}).index("by_quizId", ["quizId"]),
+
+	// USER QUIZ RESPONSES
+	quiz_responses: defineTable({
+		userId: v.id("users"),
+		quizId: v.id("quizzes"),
+		questionId: v.id("quiz_questions"),
+		selectedOptionIndex: v.number(),
+		isCorrect: v.boolean(),
+		timeSpentSeconds: v.number(),
+		submittedAt: v.number(),
+	})
+		.index("by_userId_quizId", ["userId", "quizId"])
+		.index("by_questionId", ["questionId"]),
 });
 
 export default schema
