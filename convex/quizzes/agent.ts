@@ -3,10 +3,6 @@ import { api, internal } from "../_generated/api";
 import { Id } from "../_generated/dataModel";
 import { createQuizSchema } from "./validations";
 
-
-
-
-
 /**
  * Tool for generating quizzes using AI
  * Creates a structured quiz based on topic and difficulty

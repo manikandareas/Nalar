@@ -11,6 +11,7 @@
 import type * as chat_actions from "../chat/actions.js";
 import type * as chat_mutations from "../chat/mutations.js";
 import type * as chat_queries from "../chat/queries.js";
+import type * as instructions from "../instructions.js";
 import type * as model from "../model.js";
 import type * as quizzes_actions from "../quizzes/actions.js";
 import type * as quizzes_agent from "../quizzes/agent.js";
@@ -39,6 +40,7 @@ declare const fullApi: ApiFromModules<{
   "chat/actions": typeof chat_actions;
   "chat/mutations": typeof chat_mutations;
   "chat/queries": typeof chat_queries;
+  instructions: typeof instructions;
   model: typeof model;
   "quizzes/actions": typeof quizzes_actions;
   "quizzes/agent": typeof quizzes_agent;

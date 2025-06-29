@@ -4,9 +4,6 @@ import { internalAction } from "../_generated/server";
 import { GENERATE_QUIZ_MODEL } from "../model";
 import { quizSchema } from "./validations";
 
-
-
-
 export const generateQuiz = internalAction({
     args: {
         title: v.string(),
@@ -67,6 +64,18 @@ export const generateQuiz = internalAction({
               "type": "multiple_choice",
               "difficulty": "easy"
             }
+
+            ## Format Matematika
+
+            Ketika menulis ekspresi matematika:
+            - Gunakan sintaks LaTeX yang dibungkus dalam tanda dolar ganda: $$...$$
+            - Untuk ekspresi inline dalam kalimat, tetap gunakan $$...$$
+            - Pastikan semua variabel, fungsi, dan operator diformat dengan benar
+            - Untuk persamaan kompleks, uraikan langkah demi langkah
+
+            Contoh:
+            - Rumus kuadrat adalah $$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
+            - Turunan dari $$f(x) = x^2$$ adalah $$f'(x) = 2x$$
             
             Fokus pada pembuatan pertanyaan yang menguji pemahaman konsep daripada sekadar hafalan.
             Pastikan bahasa yang digunakan natural dan mudah dipahami oleh penutur Bahasa Indonesia.

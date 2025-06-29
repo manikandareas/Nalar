@@ -1,3 +1,4 @@
+import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CheckCircle, XCircle } from "lucide-react";
@@ -45,7 +46,9 @@ export const QuizQuestion = forwardRef<HTMLDivElement, QuizQuestionProps>(
           </span>
         </div>
 
-        <h3 className="text-xl font-semibold mb-6">{question}</h3>
+        <div className="text-xl font-semibold mb-6">
+          <MarkdownRenderer content={question} />
+        </div>
 
         <div className="space-y-3 mb-6">
           {options.map((option, index) => (
@@ -61,7 +64,9 @@ export const QuizQuestion = forwardRef<HTMLDivElement, QuizQuestionProps>(
               onClick={() => !isSubmitted && onSelectOption(index)}
             >
               <div className="flex items-center justify-between">
-                <span>{option}</span>
+                <div className="flex-1">
+                  <MarkdownRenderer content={option} />
+                </div>
                 {isSubmitted && (
                   <>
                     {index === correctOption && (
@@ -80,7 +85,9 @@ export const QuizQuestion = forwardRef<HTMLDivElement, QuizQuestionProps>(
         {isSubmitted && explanation && (
           <div className="bg-blue-50 border border-blue-100 rounded-md p-4 mb-6">
             <h4 className="font-medium text-blue-800 mb-2">Explanation</h4>
-            <p className="text-blue-700">{explanation}</p>
+            <div className="text-blue-700">
+              <MarkdownRenderer content={explanation} />
+            </div>
           </div>
         )}
 

@@ -1,6 +1,7 @@
 "use client"
 import { Container } from "@/components/container";
 import { MainContent } from "@/components/main-content";
+import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { Button } from "@/components/ui/button";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
@@ -129,7 +130,9 @@ export default function QuizResultsPage() {
                     </div>
                   </div>
 
-                  <h3 className="text-lg font-medium mb-4">{question.question}</h3>
+                  <div className="text-lg font-medium mb-4">
+                    <MarkdownRenderer content={question.question} />
+                  </div>
 
                   <div className="space-y-3 mb-6">
                     {question.options.map((option, optionIndex) => (
@@ -143,7 +146,9 @@ export default function QuizResultsPage() {
                           }`}
                       >
                         <div className="flex items-center justify-between">
-                          <span>{option}</span>
+                          <div className="flex-1">
+                            <MarkdownRenderer content={option} />
+                          </div>
                           {optionIndex === question.correctOptionIndex && (
                             <CheckCircle className="h-5 w-5 text-green-500" />
                           )}
@@ -157,7 +162,7 @@ export default function QuizResultsPage() {
 
                   <div className="bg-blue-50 border border-blue-100 rounded-md p-4">
                     <h4 className="font-medium text-blue-800 mb-2">Explanation</h4>
-                    <p className="text-blue-700">{question.explanation}</p>
+                    <div className="text-blue-700"><MarkdownRenderer content={question.explanation} /></div>
                   </div>
                 </div>
               );
@@ -174,7 +179,7 @@ export default function QuizResultsPage() {
           </Link>
 
           <Link href="/dashboard">
-            <Button className="bg-teal-600 hover:bg-teal-700">
+            <Button>
               Go to Dashboard
             </Button>
           </Link>
