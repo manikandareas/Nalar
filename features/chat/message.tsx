@@ -81,8 +81,8 @@ export const Message: React.FC<MessageProps> = (props) => {
                         "text-sm sm:text-base leading-relaxed",
                         isUser ? "text-foreground" : "text-gray-800"
                     )}>
-                        <MarkdownRenderer 
-                            content={visibleText} 
+                        <MarkdownRenderer
+                            content={visibleText}
                             className={isUser ? "text-foreground" : "text-gray-800"}
                         />
                     </div>

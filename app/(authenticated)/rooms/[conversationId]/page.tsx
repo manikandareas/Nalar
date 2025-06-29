@@ -13,12 +13,14 @@ interface IConversationPageProps {
 const ConversationPage: React.FC<IConversationPageProps> = async (props) => {
     const { conversationId } = await props.params
     return (
-        <Container className="min-h-[calc(100vh-1rem)] relative">
+        <Container className="flex flex-col h-[calc(100vh-1rem)]">
             <ChatHeader />
-            <MainContent className="max-w-4xl relative">
+            <MainContent className="max-w-4xl w-full mx-auto flex-1 overflow-y-auto px-4">
                 <MessagesArea threadId={conversationId} />
-                <ChatInput threadId={conversationId} />
             </MainContent>
+            <div className="max-w-4xl w-full mx-auto">
+                <ChatInput threadId={conversationId} />
+            </div>
         </Container>
     )
 }

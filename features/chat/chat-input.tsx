@@ -58,25 +58,27 @@ export const ChatInput: React.FC<IChatInputProps> = ({ threadId }) => {
     };
 
     return (
-        <div className="border-t border-gray-200 bg-white p-4 shadow-md z-50 max-w-4xl fixed bottom-0 w-full">
-            <div className="max-w-4xl mx-auto">
+        <div className="border-t border-gray-200 rounded-2xl bg-zinc-500/5 backdrop-blur-sm  p-2 sm:p-4 shadow-md">
+            <div className="w-full flex flex-col">
                 {/* Input mode selection with tooltips */}
-                <div className="flex justify-between items-center mb-3">
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <div className="flex items-center text-xs text-gray-500">
-                                    <Info className="h-3.5 w-3.5 mr-1" />
-                                    <span>Nalar akan selalu merespons dalam Bahasa Indonesia</span>
-                                </div>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>Anda dapat bertanya dalam Bahasa Indonesia atau Inggris</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 sm:mb-3">
+                    <div className="w-full sm:w-auto mb-2 sm:mb-0">
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <div className="flex items-center text-xs text-gray-500 justify-center sm:justify-start">
+                                        <Info className="h-3.5 w-3.5 mr-1" />
+                                        <span>Nalar akan selalu merespons dalam Bahasa Indonesia</span>
+                                    </div>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Anda dapat bertanya dalam Bahasa Indonesia atau Inggris</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    </div>
 
-                    <div className="flex space-x-2">
+                    <div className="flex space-x-2 self-center sm:self-auto">
                         <Toggle
                             pressed={inputMode === 'text'}
                             onPressedChange={() => inputMode !== 'text' && toggleInputMode()}
@@ -110,7 +112,7 @@ export const ChatInput: React.FC<IChatInputProps> = ({ threadId }) => {
                             onChange={(e) => setMessage(e.target.value)}
                             onKeyDown={handleKeyDown}
                             placeholder="Tanyakan tentang konsep matematika..."
-                            className="min-h-[60px] max-h-[200px] pr-12 resize-none border-gray-300 focus:border-teal-500 focus:ring-teal-500 rounded-xl shadow-sm"
+                            className="min-h-[48px] sm:min-h-[60px] max-h-[200px] pr-12 resize-none border-gray-300 focus:border-teal-500 focus:ring-teal-500 rounded-xl shadow-sm"
                             rows={1}
                             disabled={isLoading}
                         />
@@ -120,7 +122,7 @@ export const ChatInput: React.FC<IChatInputProps> = ({ threadId }) => {
                                 value={message}
                                 onChange={setMessage}
                                 placeholder="Masukkan ekspresi matematika..."
-                                className="min-h-[60px] max-h-[200px]"
+                                className="min-h-[48px] sm:min-h-[60px] max-h-[200px]"
                                 onSubmit={() => void handleSubmit(new Event('submit') as unknown as React.FormEvent)}
                             />
                         </div>
@@ -128,8 +130,8 @@ export const ChatInput: React.FC<IChatInputProps> = ({ threadId }) => {
 
                     <Button
                         type="submit"
-                        size="sm"
-                        className={`absolute right-2 bottom-2 h-8 w-8 p-0 rounded-full ${!message.trim() || isLoading ? '' : 'bg-teal-600 hover:bg-teal-700'}`}
+                        size="icon"
+                        className={`absolute right-2 bottom-2 h-8 w-8 sm:h-9 sm:w-9`}
                         disabled={!message.trim() || isLoading}
                     >
                         {isLoading ? (
@@ -141,7 +143,7 @@ export const ChatInput: React.FC<IChatInputProps> = ({ threadId }) => {
                 </form>
 
                 {/* Typing hint */}
-                <div className="mt-2 text-xs text-gray-400 text-center">
+                <div className="mt-1.5 sm:mt-2 text-xs text-gray-400 text-center">
                     {inputMode === 'text' ?
                         "Tekan Enter untuk kirim, Shift+Enter untuk baris baru" :
                         "Gunakan sintaks LaTeX untuk ekspresi matematika"}
