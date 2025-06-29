@@ -102,31 +102,31 @@ quiz_attempts: defineTable({
         - If the user performs well, suggest a formal quiz using the `createQuiz` tool.
     8.  **Knowledge Graph Update:** Throughout the conversation, use the `updateKnowledgeGraph` tool to track the user's progress on different concepts.
     9.  **Contextual Suggestions:** Recommend related topics or "learn more" resources based on the conversation.
-- [ ] Implement response format handling for math expressions
-  - [ ] Parse LaTeX from AI responses
-  - [ ] Render expressions properly in chat
+- [X] Implement response format handling for math expressions
+  - [X] Parse LaTeX from AI responses
+  - [X] Render expressions properly in chat
 
 ### Days 3-4: Quiz System
-- [ ] Extend database schema for quizzes
-  - [ ] Add quiz tables to schema
-  - [ ] Create model types for quiz data
-- [ ] Implement quiz generation function in AI agent
-  - [ ] Create function to generate quiz questions
-  - [ ] Add quiz topic extraction from conversation
-  - [ ] Implement difficulty adjustment based on user level
-- [ ] Build quiz UI components
-  - [ ] Quiz start interface
-  - [ ] Question display component
-  - [ ] Option selection interface
-  - [ ] Results and feedback display
-- [ ] Develop quiz flow
-  - [ ] Question navigation
-  - [ ] Answer submission
-  - [ ] Immediate feedback mechanism
-  - [ ] Final score calculation and display
+- [X] Extend database schema for quizzes
+  - [X] Add quiz tables to schema
+  - [X] Create model types for quiz data
+- [X] Implement quiz generation function in AI agent
+  - [X] Create function to generate quiz questions
+  - [X] Add quiz topic extraction from conversation
+  - [X] Implement difficulty adjustment based on user level
+- [X] Build quiz UI components
+  - [X] Quiz start interface
+  - [X] Question display component
+  - [X] Option selection interface
+  - [X] Results and feedback display
+- [X] Develop quiz flow
+  - [X] Question navigation
+  - [X] Answer submission
+  - [X] Immediate feedback mechanism
+  - [X] Final score calculation and display
 - [ ] Implement quiz history storage
   - [ ] Save completed quizzes
-  - [ ] Store user responses and scores
+  - [X] Store user responses and scores
 
 ### Days 5-6: Knowledge Graph & Visualization
 - [ ] Enhance knowledge node system
