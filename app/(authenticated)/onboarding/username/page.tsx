@@ -2,12 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@clerk/nextjs";
@@ -27,7 +27,7 @@ const formSchema = z.object({
 export default function UsernamePage() {
   const { isLoaded } = useAuth();
   const router = useRouter();
-  const completeOnboarding = useMutation(api.users.completeOnboarding);
+  const completeOnboarding = useMutation(api.users.mutations.completeOnboarding);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,7 +39,7 @@ export default function UsernamePage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       await completeOnboarding({ username: values.username });
-      router.push("/");
+      router.push("/onboarding/goals");
     } catch (error) {
       console.error("Failed to complete onboarding:", error);
       // Optionally, display an error message to the user

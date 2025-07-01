@@ -478,16 +478,81 @@ const sidebarMenuButtonVariants = cva(
   {
     variants: {
       variant: {
-        default: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+        default:
+          "bg-transparent hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground",
         outline:
-          "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
+          "border border-sidebar-border bg-transparent hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+        ghost: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
       },
       size: {
         default: "h-8 text-sm",
         sm: "h-7 text-xs",
         lg: "h-12 text-sm group-data-[collapsible=icon]:p-0!",
+        icon: "h-8 w-8",
       },
     },
+    compoundVariants: [
+      {
+        variant: 'default',
+        size: 'default',
+        className: 'bg-transparent hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground',
+      },
+      {
+        variant: 'outline',
+        size: 'default',
+        className: 'border border-sidebar-border bg-transparent hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
+      },
+      {
+        variant: 'ghost',
+        size: 'default',
+        className: 'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
+      },
+      {
+        variant: 'default',
+        size: 'sm',
+        className: 'h-7 text-xs bg-transparent hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground',
+      },
+      {
+        variant: 'outline',
+        size: 'sm',
+        className: 'h-7 text-xs border border-sidebar-border bg-transparent hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
+      },
+      {
+        variant: 'ghost',
+        size: 'sm',
+        className: 'h-7 text-xs hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
+      },
+      {
+        variant: 'default',
+        size: 'lg',
+        className: 'h-12 text-sm group-data-[collapsible=icon]:p-0! bg-transparent hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground',
+      },
+      {
+        variant: 'outline',
+        size: 'lg',
+        className: 'h-12 text-sm group-data-[collapsible=icon]:p-0! border border-sidebar-border bg-transparent hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
+      },
+      {
+        variant: 'ghost',
+        size: 'lg',
+        className: 'h-12 text-sm group-data-[collapsible=icon]:p-0! hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
+      },
+      {
+        variant: 'default',
+        size: 'icon',
+        className: 'h-8 w-8 bg-transparent hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground',
+      },
+      {
+        variant: 'outline',
+        size: 'icon',
+        className: 'h-8 w-8 border border-sidebar-border bg-transparent hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
+      },
+      {
+        variant: 'ghost',
+        size: 'icon',
+        className: 'h-8 w-8 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
+      },
+    ],
     defaultVariants: {
       variant: "default",
       size: "default",

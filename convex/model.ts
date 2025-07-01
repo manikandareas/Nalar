@@ -7,6 +7,7 @@ import { components } from "./_generated/api";
 // Import the Nalar system prompt
 import { NALAR_SYSTEM_PROMPT } from "./instructions";
 import { createQuizTool } from "./quizzes/agent";
+import { updateKnowledgeGraphTool } from "./knowledge/agent";
 
 export const MAIN_MODEL: LanguageModelV1 = openai.chat("gpt-4.1-mini");
 
@@ -36,6 +37,7 @@ export const nalarAgent = new Agent(components.agent, {
         },
     },
     tools: {
-        createQuizTool
+        createQuizTool,
+        updateKnowledgeGraphTool,
     },
 });

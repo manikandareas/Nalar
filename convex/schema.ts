@@ -17,18 +17,51 @@ const schema = defineSchema({
 			),
 		),
 		preferences: v.optional(v.any()), // Flexible JSON for UI preferences, notifications
+		onboardingStep: v.optional(
+			v.union(
+				v.literal("username"),
+				v.literal("goals"),
+				v.literal("completed")
+			)
+		),
 	}).index("by_user_id", ["userId"]),
 
 	// USER LEARNING PROFILE
 	user_profiles: defineTable({
 		userId: v.id("users"),
-		learningGoals: v.array(v.string()),
-		currentLevel: v.string(),
+		learningGoals: v.array(
+			v.object({
+				topic: v.string(),
+				level: v.union(
+					v.literal("beginner"),
+					v.literal("intermediate"),
+					v.literal("advanced")
+				),
+			})
+		),
 		studyReason: v.string(),
 		studyPlan: v.string(), // "daily", "weekly", "intensive"
 		preferences: v.optional(v.any()), // learning style, notification settings
 		studyStreak: v.number(), // Consecutive days
 		streakStartDate: v.optional(v.number()),
+		updatedAt: v.number(),
+	}).index("by_userId", ["userId"]),
+
+	learning_plans: defineTable({
+		userId: v.id("users"),
+		title: v.string(),
+		description: v.string(),
+		steps: v.array(v.object({
+			title: v.string(),
+			description: v.string(),
+			status: v.union(v.literal("not-started"), v.literal("in-progress"), v.literal("completed")),
+			resources: v.optional(v.array(v.object({
+				title: v.string(),
+				url: v.string(),
+				type: v.string(),
+			}))),
+		})),
+		createdAt: v.number(),
 		updatedAt: v.number(),
 	}).index("by_userId", ["userId"]),
 
@@ -49,8 +82,17 @@ const schema = defineSchema({
 		description: v.string(),
 		understandingLevel: v.number(), // 0-100
 		lastUpdated: v.number(),
-		connections: v.array(v.id("knowledge_nodes")), // related topics
 	}).index("by_userId", ["userId"]),
+
+	knowledge_edges: defineTable({
+		userId: v.id("users"),
+		sourceNodeId: v.id("knowledge_nodes"),
+		targetNodeId: v.id("knowledge_nodes"),
+		label: v.optional(v.string()), // e.g., "related to", "builds on"
+	})
+		.index("by_userId", ["userId"])
+		.index("by_source_node", ["sourceNodeId"])
+		.index("by_target_node", ["targetNodeId"]),
 
 	// QUIZZES
 	quizzes: defineTable({

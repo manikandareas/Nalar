@@ -123,7 +123,7 @@ export const MessagesArea: React.FC<IMessageAreaProps> = ({ threadId }) => {
     return (
         <div className="w-full mb-28">
             {/* Background pattern for chat area */}
-            <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white opacity-50 pointer-events-none" />
+            <div className="absolute inset-0 bg-background opacity-50 pointer-events-none" />
 
             {/* Scroll to bottom button */}
             {showScrollButton && (

@@ -29,7 +29,7 @@ export function ChatHeader({ title }: ChatHeaderProps = {}) {
     // Use provided title or room details title or default
     const chatTitle = title || (roomDetails?.title) || "New Conversation";
     return (
-        <header className="flex h-16 shrink-0 items-center justify-between px-4 sticky top-0 bg-background z-50">
+        <header className="flex h-16 shrink-0 items-center bg-background justify-between px-4 sticky top-0 z-50">
             <div className="flex items-center space-x-2">
                 <SidebarTrigger className="-ml-1" />
                 <DropdownMenu>

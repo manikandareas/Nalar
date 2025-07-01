@@ -124,44 +124,44 @@ quiz_attempts: defineTable({
   - [X] Answer submission
   - [X] Immediate feedback mechanism
   - [X] Final score calculation and display
-- [ ] Implement quiz history storage
-  - [ ] Save completed quizzes
+- [X] Implement quiz history storage
+  - [X] Save completed quizzes
   - [X] Store user responses and scores
 
 ### Days 5-6: Knowledge Graph & Visualization
-- [ ] Enhance knowledge node system
-  - [ ] Implement topic extraction from chat
-  - [ ] Create function to update understanding level based on quiz results
-  - [ ] Add relationship mapping between topics
-- [ ] Build knowledge graph visualization
-  - [ ] Select and integrate visualization library
-  - [ ] Create force-directed graph component
-  - [ ] Add node styling based on understanding level
-  - [ ] Implement zoom and pan functionality
-- [ ] Develop graph update mechanism
-  - [ ] Create AI tool for updating knowledge graph
-  - [ ] Implement triggers for graph updates (after quiz, key chat moments)
-  - [ ] Add real-time visualization updates
+- [X] Enhance knowledge node system
+  - [X] Implement topic extraction from chat
+  - [X] Create function to update understanding level based on quiz results
+  - [X] Add relationship mapping between topics
+- [X] Build knowledge graph visualization
+  - [X] Select and integrate visualization library
+  - [X] Create force-directed graph component
+  - [X] Add node styling based on understanding level
+  - [X] Implement zoom and pan functionality
+- [X] Develop graph update mechanism
+  - [X] Create AI tool for updating knowledge graph
+  - [X] Implement triggers for graph updates (after quiz, key chat moments)
+  - [X] Add real-time visualization updates
 
 ### Day 7: Onboarding Refinement
-- [ ] Enhance existing onboarding flow
-  - [ ] Update user profile schema if needed
-  - [ ] Refine onboarding UI components
-  - [ ] Improve form validation
-- [ ] Add learning plan generation
-  - [ ] Create AI prompt for learning plan creation
-  - [ ] Implement plan display component
-  - [ ] Store plan in user profile
-- [ ] Create personal dashboard with plan
-  - [ ] Build dashboard layout
-  - [ ] Add learning plan display
-  - [ ] Create quick access to quizzes and chats
+- [X] Enhance existing onboarding flow
+  - [X] Update user profile schema if needed
+  - [X] Refine onboarding UI components
+  - [X] Improve form validation
+- [X] Add learning plan generation
+  - [X] Create AI prompt for learning plan creation
+  - [X] Implement plan display component
+  - [X] Store plan in user profile
+- [X] Create personal dashboard with plan
+  - [X] Build dashboard layout
+  - [X] Add learning plan display
+  - [X] Create quick access to quizzes and chats
 
 ### Day 8: Aside Panel & History
-- [ ] Develop quiz history panel
-  - [ ] Create history list component
-  - [ ] Display quiz scores and dates
-  - [ ] Add quiz details expansion
+- [X] Develop quiz history panel
+  - [X] Create history list component
+  - [X] Display quiz scores and dates
+  - [X] Add quiz details expansion
 - [ ] Implement progress indicators
   - [ ] Design progress visualization
   - [ ] Create topic progress component

@@ -1,4 +1,5 @@
-import { query } from "../_generated/server";
+import { internalQuery, query } from "../_generated/server";
+import { v } from "convex/values";
 
 /**
  * Retrieves the currently authenticated user.
@@ -23,6 +24,21 @@ export const getCurrentUser = query({
         }
 
         return userData;
+    },
+});
+
+export const getUserProfile = internalQuery({
+    args: { userId: v.string() },
+    handler: async (ctx, { userId }) => {
+        const user = await ctx.db.query("users").withIndex("by_user_id", q => q.eq("userId", userId)).first();
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        return ctx.db
+            .query("user_profiles")
+            .withIndex("by_userId", (q) => q.eq("userId", user._id))
+            .first();
     },
 });
 

@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation } from "../_generated/server";
+import { internal } from "../_generated/api";
 
 // Create a new quiz based on the conversation
 export const createQuiz = mutation({
@@ -154,6 +155,32 @@ export const completeQuiz = mutation({
             score,
             timeSpentSeconds: totalTimeSpent,
         });
+
+        // Update knowledge graph
+        if (quiz.topic) {
+            const existingNode = await ctx.db
+                .query("knowledge_nodes")
+                .withIndex("by_userId", (q) => q.eq("userId", quiz.userId))
+                .filter((q) => q.eq(q.field("topic"), quiz.topic))
+                .first();
+
+            if (existingNode) {
+                // Average the new score with the existing understanding level
+                const newUnderstandingLevel = (existingNode.understandingLevel + score) / 2;
+                await ctx.db.patch(existingNode._id, {
+                    understandingLevel: Math.round(newUnderstandingLevel),
+                    lastUpdated: Date.now(),
+                });
+            } else {
+                await ctx.db.insert("knowledge_nodes", {
+                    userId: quiz.userId,
+                    topic: quiz.topic,
+                    description: `Learned about ${quiz.topic}.`,
+                    understandingLevel: score,
+                    lastUpdated: Date.now(),
+                });
+            }
+        }
 
         return {
             score,

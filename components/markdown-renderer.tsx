@@ -104,7 +104,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
                         return <td className="border border-gray-300 px-4 py-2" {...props}>{children}</td>;
                     },
                     hr({ ...props }: MarkdownComponentProps) {
-                        return <hr className="my-6" {...props} />;
+                        return <hr className="my-8" {...props} />;
                     },
 
                     // List styling

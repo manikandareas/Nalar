@@ -2,6 +2,7 @@
 
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import KnowledgeGraph from "@/features/knowledge-graph/knowledge-graph";
 
 export default function DashboardPage() {
   const currentUser = useQuery(api.users.queries.getCurrentUser);
@@ -26,6 +27,9 @@ export default function DashboardPage() {
       </header>
 
       <main>
+        <div className="mb-8">
+          <KnowledgeGraph />
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         </div>
       </main>

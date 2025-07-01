@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { useCreateThread } from "@/features/chat/hooks/use-create-thread";
-import { QuizHistorySheet } from "@/features/quiz/quiz-history-sheet";
+import { useCreateThread } from "@/features/chat/hooks/use-create-thread"
+import KnowledgeGraph from "@/features/knowledge-graph/knowledge-graph"
+import { LearningPlan } from "@/features/learning-plan/learning-plan"
+import { QuizHistorySheet } from "@/features/quiz/quiz-history-sheet"
 import { Brain, Flame, Loader2, SendHorizonal, Sparkles, Target, TrendingUp } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -37,7 +39,7 @@ export default function HomePage() {
     return (<>
         <Container>
             {/* Top Navigation */}
-            <header className="flex h-16 shrink-0 items-center gap-2 bg-background px-4">
+            <header className="flex h-16 shrink-0 items-center gap-2 px-4">
                 <SidebarTrigger className="-ml-1" />
                 <div className="flex items-center space-x-2 ml-auto">
                     <QuizHistorySheet>
@@ -134,6 +136,12 @@ export default function HomePage() {
                             </CardContent>
                         </Card>
                     </div>
+
+                    <div className="mt-6 sm:mt-8">
+                        <LearningPlan />
+                    </div>
+
+                    <KnowledgeGraph />
                 </div>
             </MainContent>
         </Container>
