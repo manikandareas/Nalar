@@ -81,3 +81,29 @@ export const getUserQuizzes = query({
             .collect();
     },
 });
+
+// Get completed quiz history for the current user
+export const getHistory = query({
+    handler: async (ctx) => {
+        const identity = await ctx.auth.getUserIdentity();
+        if (!identity) {
+            return [];
+        }
+
+        const user = await ctx.db
+            .query("users")
+            .withIndex("by_user_id", (q) => q.eq("userId", identity.subject))
+            .unique();
+
+        if (!user) {
+            return [];
+        }
+
+        return await ctx.db
+            .query("quizzes")
+            .withIndex("by_userId", (q) => q.eq("userId", user._id))
+            .filter((q) => q.eq(q.field("status"), "completed"))
+            .order("desc")
+            .collect();
+    },
+});

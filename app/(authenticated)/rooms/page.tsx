@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { useCreateThread } from "@/features/chat/hooks/use-create-thread"
+import { useCreateThread } from "@/features/chat/hooks/use-create-thread";
+import { QuizHistorySheet } from "@/features/quiz/quiz-history-sheet";
 import { Brain, Flame, Loader2, SendHorizonal, Sparkles, Target, TrendingUp } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -39,10 +40,12 @@ export default function HomePage() {
             <header className="flex h-16 shrink-0 items-center gap-2 bg-background px-4">
                 <SidebarTrigger className="-ml-1" />
                 <div className="flex items-center space-x-2 ml-auto">
-                    <Button variant="ghost" size="sm" className="hidden md:flex">
-                        <Brain className="h-4 w-4 mr-2" />
-                        Quiz
-                    </Button>
+                    <QuizHistorySheet>
+                        <Button variant="ghost" size="sm" className="hidden md:flex">
+                            <Brain className="h-4 w-4 mr-2" />
+                            Quiz
+                        </Button>
+                    </QuizHistorySheet>
                 </div>
             </header>
 
