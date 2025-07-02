@@ -1,6 +1,5 @@
 "use client"
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -17,11 +16,13 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { api } from "@/convex/_generated/api"
+import { Doc } from "@/convex/_generated/dataModel"
 import { cn } from "@/lib/utils"
 import { useMutation, useQuery } from "convex/react"
 import { BookOpen, ChevronDown, FileText, MoreVertical, Plus, Search, Trash, Video } from "lucide-react"
 import Link from "next/link"
 import { useParams } from "next/navigation"
+import { NavUser } from "./nav-user"
 
 const navigationItems = [
     { title: "Search", icon: Search, url: "#" },
@@ -40,9 +41,6 @@ export function AppSidebar() {
         removeConversation({ threadId })
     }
 
-    const getInitials = (name?: string) => {
-        return name ? name.charAt(0).toUpperCase() : ""
-    }
 
     return (
         <Sidebar className="border-r bg-sidebar text-sidebar-foreground">
@@ -122,38 +120,8 @@ export function AppSidebar() {
                 </SidebarGroup>
             </SidebarContent>
 
-            <SidebarFooter className="mb-4 py-3">
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <SidebarMenuButton className="w-full">
-                                    <Avatar className="h-8 w-8 bg-primary">
-                                        <AvatarFallback className="bg-primary text-primary-foreground text-sm font-medium">
-                                            {getInitials(currentUser?.username)}
-                                        </AvatarFallback>
-                                    </Avatar>
-                                    <div className="flex flex-col items-start">
-                                        <span className="text-sm font-medium text-foreground">{currentUser?.username}</span>
-                                        <span className="text-xs text-muted-foreground">Free Plan</span>
-                                    </div>
-                                    <ChevronDown className="ml-auto h-4 w-4" />
-                                </SidebarMenuButton>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent side="top" className="w-[--radix-popper-anchor-width]">
-                                <DropdownMenuItem>
-                                    <span>Account Settings</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <span>Upgrade Plan</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <span>Sign Out</span>
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </SidebarMenuItem>
-                </SidebarMenu>
+            <SidebarFooter>
+                <NavUser user={currentUser as Doc<"users">} />
             </SidebarFooter>
         </Sidebar>
     )

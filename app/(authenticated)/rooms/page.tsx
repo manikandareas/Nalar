@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { SidebarTrigger } from "@/components/ui/sidebar"
+import { api } from "@/convex/_generated/api"
 import { useCreateThread } from "@/features/chat/hooks/use-create-thread"
-import KnowledgeGraph from "@/features/knowledge-graph/knowledge-graph"
 import { LearningPlan } from "@/features/learning-plan/learning-plan"
 import { QuizHistorySheet } from "@/features/quiz/quiz-history-sheet"
-import { Brain, Flame, Loader2, SendHorizonal, Sparkles, Target, TrendingUp } from "lucide-react"
+import { useQuery } from "convex/react"
+import { Brain, Flame, Loader2, SendHorizonal, Target, TrendingUp } from "lucide-react"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
@@ -20,6 +22,7 @@ export default function HomePage() {
     const [prompt, setPrompt] = useState("")
     const router = useRouter()
     const { createThread, isLoading, error } = useCreateThread();
+    const currentUser = useQuery(api.users.queries.getCurrentUser);
 
     const handleCreateThread = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -56,11 +59,13 @@ export default function HomePage() {
                 <div className="max-w-6xl mx-auto">
                     {/* Header with Paper Plane Icon */}
                     <div className="text-center mb-6 sm:mb-8">
-                        <div className="inline-flex items-center justify-center w-16 h-16 mb-4 bg-primary/10 rounded-full">
+                        <Image className="inline-flex items-center justify-center  mb-4" src={"/logo.png"} alt="Logo" width={120} height={120} />
+                        {/* <div className="inline-flex items-center justify-center w-16 h-16 mb-4 bg-primary/10 rounded-full">
                             <Sparkles className="w-8 h-8 text-primary" />
-                        </div>
-                        <h1 className="text-2xl sm:text-3xl font-medium mb-4 sm:mb-6 px-4">
-                            What knowledge are you seeking, Vito?
+                        </div> */}
+
+                        <h1 className="text-2xl sm:text-3xl font-medium mb-4 font-mono sm:mb-6 px-4">
+                            Time to expand your knowledge! {currentUser?.username}
                         </h1>
                     </div>
 
@@ -140,8 +145,6 @@ export default function HomePage() {
                     <div className="mt-6 sm:mt-8">
                         <LearningPlan />
                     </div>
-
-                    <KnowledgeGraph />
                 </div>
             </MainContent>
         </Container>

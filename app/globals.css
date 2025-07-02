@@ -40,8 +40,8 @@
   --sidebar-border: var(--border);
   --sidebar-ring: var(--primary);
 
-  --font-sans: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: Geist, sans-serif;
+  --font-mono: Geist_Mono, monospace;
   --font-serif: 'Georgia', serif;
 
   --radius: 0.5rem;
