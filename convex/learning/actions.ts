@@ -7,7 +7,7 @@ import { GENERATE_QUIZ_MODEL } from "../model";
 import { learningPlanSchema } from "./validations";
 
 export const generateLearningPlan = internalAction({
-    args: { userId: v.string() },
+    args: { userId: v.id("users") },
     handler: async (ctx, { userId }): Promise<z.infer<typeof learningPlanSchema> | null> => {
         const userProfile = await ctx.runQuery(internal.users.queries.getUserProfile, { userId });
 
@@ -16,16 +16,18 @@ export const generateLearningPlan = internalAction({
             return null;
         }
 
-        const learningGoalsText = userProfile.learningGoals
-            .map((goal: { topic: string; level: string }) => `- ${goal.topic} (Level: ${goal.level})`)
-            .join("\n");
+        const learningGoalsText = userProfile.learningGoals.map((goal: string) => `- ${goal}`).join("\n");
 
         const prompt = `
             You are an expert curriculum designer. Your task is to create a personalized learning plan for a user based on their stated goals. 
+            The user's current level is ${userProfile.level}.
             The user wants to learn about the following topics:
             ${learningGoalsText}
+            The user is studying for this reason: ${userProfile.studyReason}.
+            The user's preferred study plan is: ${userProfile.studyPlan}.
 
             Generate a comprehensive, step-by-step learning plan that is broken down into logical sections. For each step, provide a clear title, a detailed description of the concepts to be learned, and optionally, a few high-quality online resources (articles, videos, tutorials) to aid in learning.
+            The plan should be tailored to the user's level, study reason, and study plan.
             Ensure the output is a valid JSON object matching the provided schema.
         `;
 
@@ -33,6 +35,7 @@ export const generateLearningPlan = internalAction({
             model: GENERATE_QUIZ_MODEL,
             schema: learningPlanSchema,
             prompt: prompt,
+
         });
 
         await ctx.runMutation(internal.learning.mutations.saveLearningPlan, {

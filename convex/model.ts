@@ -6,12 +6,13 @@ import { components } from "./_generated/api";
 
 // Import the Nalar system prompt
 import { NALAR_SYSTEM_PROMPT } from "./instructions";
-import { createQuizTool } from "./quizzes/agent";
 import { updateKnowledgeGraphTool } from "./knowledge/agent";
+import { createQuizTool } from "./quizzes/agent";
+
 
 export const MAIN_MODEL: LanguageModelV1 = openai.chat("gpt-4.1-mini");
 
-export const GENERATE_QUIZ_MODEL: LanguageModelV1 = openai.chat("gpt-4.1");
+export const GENERATE_QUIZ_MODEL: LanguageModelV1 = openai.chat("gpt-4.1", { structuredOutputs: true });
 
 const textEmbedding: EmbeddingModel<string> = openai.textEmbeddingModel("text-embedding-3-small",);
 

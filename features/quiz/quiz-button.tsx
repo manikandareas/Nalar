@@ -15,10 +15,7 @@ export const QuizButton: FC<QuizButtonProps> = ({ quizId }) => {
 
   return (
     <div className="flex justify-center my-4">
-      <Button 
-        onClick={handleStartQuiz}
-        className="bg-teal-600 hover:bg-teal-700 text-white font-medium px-6 py-2"
-      >
+      <Button onClick={handleStartQuiz} size="lg">
         Start Quiz
       </Button>
     </div>

@@ -1,20 +1,15 @@
 "use client"
 import { Container } from "@/components/container";
 import { MainContent } from "@/components/main-content";
+import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { Id } from "@/convex/_generated/dataModel";
 import { useQuiz } from "@/features/quiz/hooks/use-quiz";
 import { QuizQuestion } from "@/features/quiz/quiz-question";
 import { Loader2 } from "lucide-react";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 
-// interface QuizPageProps {
-//     params: Promise<{
-//         quizId: string;
-//     }>;
-// }
-
 export default function QuizPage() {
-    // Cast the quizId to the correct type
     const { quizId } = useParams()
 
     const {
@@ -50,29 +45,31 @@ export default function QuizPage() {
         return (
             <Container className="min-h-screen flex items-center justify-center">
                 <div className="flex flex-col items-center">
-                    <Loader2 className="h-8 w-8 animate-spin text-teal-600 mb-4" />
-                    <p className="text-gray-600">Loading quiz...</p>
+                    <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
+                    <p className="text-muted-foreground">Loading quiz...</p>
                 </div>
             </Container>
         );
     }
 
     return (
-        <Container className="min-h-screen py-8">
+        <Container className="min-h-screen py-8 relative">
             <MainContent className="max-w-3xl">
                 <div className="mb-8">
-                    <h1 className="text-2xl font-bold text-gray-800">{quiz.title}</h1>
+                    <h1 className="text-2xl font-bold text-foreground">{quiz.title}</h1>
                     {quiz.description && (
-                        <p className="text-gray-600 mt-2">{quiz.description}</p>
+                        <div className="text-muted-foreground mt-2">
+                            <MarkdownRenderer content={quiz.description} />
+                        </div>
                     )}
                     <div className="flex items-center mt-4">
-                        <span className="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm font-medium">
+                        <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
                             {quiz.topic}
                         </span>
-                        <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium ml-2">
+                        <span className="bg-secondary/10 text-secondary-foreground px-3 py-1 rounded-full text-sm font-medium ml-2">
                             {quiz.difficulty}
                         </span>
-                        <span className="text-gray-500 ml-auto">
+                        <span className="text-muted-foreground ml-auto">
                             {currentQuestionIndex + 1} of {questions.length} questions
                         </span>
                     </div>
@@ -100,6 +97,8 @@ export default function QuizPage() {
                     ))}
                 </div>
             </MainContent>
+            <Image src="/assets/pondering.svg" width={400} height={400} alt="Pondering" className="fixed bottom-0 left-0 transform -translate-x-1/4" />
+
         </Container>
     );
 }

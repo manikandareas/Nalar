@@ -26,7 +26,7 @@ import { NavUser } from "./nav-user"
 
 const navigationItems = [
     { title: "Search", icon: Search, url: "#" },
-    { title: "Your Library", icon: BookOpen, url: "#" },
+    { title: "Your Plan", icon: BookOpen, url: "#" },
     { title: "Video Vault", icon: Video, url: "#" },
     { title: "Read Articles", icon: FileText, url: "#" },
 ]

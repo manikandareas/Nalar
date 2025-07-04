@@ -11,7 +11,6 @@ import { LearningPlan } from "@/features/learning-plan/learning-plan"
 import { QuizHistorySheet } from "@/features/quiz/quiz-history-sheet"
 import { useQuery } from "convex/react"
 import { Brain, Flame, Loader2, SendHorizonal, Target, TrendingUp } from "lucide-react"
-import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
@@ -46,7 +45,7 @@ export default function HomePage() {
                 <SidebarTrigger className="-ml-1" />
                 <div className="flex items-center space-x-2 ml-auto">
                     <QuizHistorySheet>
-                        <Button variant="ghost" size="sm" className="hidden md:flex">
+                        <Button variant="gradient" size="sm" className="hidden md:flex">
                             <Brain className="h-4 w-4 mr-2" />
                             Quiz
                         </Button>
@@ -59,7 +58,9 @@ export default function HomePage() {
                 <div className="max-w-6xl mx-auto">
                     {/* Header with Paper Plane Icon */}
                     <div className="text-center mb-6 sm:mb-8">
-                        <Image className="inline-flex items-center justify-center  mb-4" src={"/logo.png"} alt="Logo" width={120} height={120} />
+                        <div className="inline-flex items-center justify-center font-bold mb-4 text-4xl text-primary">
+                            <span className="text-4xl font-bold px-2 rounded-sm bg-primary/10 aspect-square line-through">N</span>alar
+                        </div>
                         {/* <div className="inline-flex items-center justify-center w-16 h-16 mb-4 bg-primary/10 rounded-full">
                             <Sparkles className="w-8 h-8 text-primary" />
                         </div> */}

@@ -36,12 +36,12 @@ export const QuizQuestion = forwardRef<HTMLDivElement, QuizQuestionProps>(
       <div
         ref={ref}
         className={cn(
-          "border rounded-lg p-6 mb-8 bg-white shadow-sm",
-          isSubmitted ? "border-gray-300" : "border-teal-200"
+          "border rounded-lg p-6 mb-8 bg-card shadow-sm",
+          isSubmitted ? "border" : "border-primary/20"
         )}
       >
         <div className="mb-4">
-          <span className="inline-block bg-teal-100 text-teal-800 px-2 py-1 rounded text-sm font-medium">
+          <span className="inline-block bg-primary/10 text-primary px-2 py-1 rounded text-sm font-medium">
             Question {questionNumber}
           </span>
         </div>
@@ -56,10 +56,10 @@ export const QuizQuestion = forwardRef<HTMLDivElement, QuizQuestionProps>(
               key={index}
               className={cn(
                 "border rounded-md p-4 cursor-pointer transition-all",
-                !isSubmitted && selectedOption === index ? "border-teal-500 bg-teal-50" : "border-gray-200 hover:border-gray-300",
-                isSubmitted && selectedOption === index && selectedOption === correctOption ? "border-green-500 bg-green-50" : "",
-                isSubmitted && selectedOption === index && selectedOption !== correctOption ? "border-red-500 bg-red-50" : "",
-                isSubmitted && index === correctOption ? "border-green-500 bg-green-50" : ""
+                !isSubmitted && selectedOption === index ? "border-primary bg-primary/10" : "border hover:border-border/80",
+                isSubmitted && selectedOption === index && selectedOption === correctOption ? "border-emerald-500 bg-emerald-500/10" : "",
+                isSubmitted && selectedOption === index && selectedOption !== correctOption ? "border-destructive bg-destructive/10" : "",
+                isSubmitted && index === correctOption ? "border-emerald-500 bg-emerald-500/10" : ""
               )}
               onClick={() => !isSubmitted && onSelectOption(index)}
             >
@@ -70,10 +70,10 @@ export const QuizQuestion = forwardRef<HTMLDivElement, QuizQuestionProps>(
                 {isSubmitted && (
                   <>
                     {index === correctOption && (
-                      <CheckCircle className="h-5 w-5 text-green-500" />
+                      <CheckCircle className="h-5 w-5 text-emerald-500" />
                     )}
                     {selectedOption === index && index !== correctOption && (
-                      <XCircle className="h-5 w-5 text-red-500" />
+                      <XCircle className="h-5 w-5 text-destructive" />
                     )}
                   </>
                 )}
@@ -83,9 +83,9 @@ export const QuizQuestion = forwardRef<HTMLDivElement, QuizQuestionProps>(
         </div>
 
         {isSubmitted && explanation && (
-          <div className="bg-blue-50 border border-blue-100 rounded-md p-4 mb-6">
-            <h4 className="font-medium text-blue-800 mb-2">Explanation</h4>
-            <div className="text-blue-700">
+          <div className="bg-accent/50 border border-accent rounded-md p-4 mb-6">
+            <h4 className="font-medium text-accent-foreground mb-2">Explanation</h4>
+            <div className="text-accent-foreground/80">
               <MarkdownRenderer content={explanation} />
             </div>
           </div>
@@ -96,14 +96,12 @@ export const QuizQuestion = forwardRef<HTMLDivElement, QuizQuestionProps>(
             <Button
               onClick={onSubmit}
               disabled={selectedOption === -1}
-              className="bg-teal-600 hover:bg-teal-700"
             >
               Submit
             </Button>
           ) : (
             <Button
               onClick={onNext}
-              className="bg-teal-600 hover:bg-teal-700"
             >
               {isLast ? "Finish" : "Next Question"}
             </Button>

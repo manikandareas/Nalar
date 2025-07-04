@@ -1,10 +1,17 @@
 import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Kalam } from "next/font/google";
 import "./globals.css";
 // Import KaTeX CSS for math rendering
 import 'katex/dist/katex.min.css';
+
+
+const kalam = Kalam({
+  variable: "--font-kalam",
+  subsets: ["latin"],
+  weight: ["300", "400", "700"]
+})
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${kalam.variable} antialiased`}
       >
         <ClerkProvider dynamic>
           <ConvexClientProvider>{children}</ConvexClientProvider>

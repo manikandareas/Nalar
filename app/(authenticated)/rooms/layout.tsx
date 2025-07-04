@@ -7,7 +7,7 @@ export default function RoomLayout({ children }: { children: React.ReactNode }) 
     return (
         <SidebarProvider>
             <AppSidebar />
-            <SidebarInset>
+            <SidebarInset >
                 {children}
             </SidebarInset>
         </SidebarProvider>

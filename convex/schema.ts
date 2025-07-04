@@ -30,18 +30,15 @@ const schema = defineSchema({
 	user_profiles: defineTable({
 		userId: v.id("users"),
 		learningGoals: v.array(
-			v.object({
-				topic: v.string(),
-				level: v.union(
-					v.literal("beginner"),
-					v.literal("intermediate"),
-					v.literal("advanced")
-				),
-			})
+			v.string()
 		),
 		studyReason: v.string(),
-		studyPlan: v.string(), // "daily", "weekly", "intensive"
-		preferences: v.optional(v.any()), // learning style, notification settings
+		studyPlan: v.string(),
+		level: v.union(
+			v.literal("beginner"),
+			v.literal("intermediate"),
+			v.literal("advanced")
+		),
 		studyStreak: v.number(), // Consecutive days
 		streakStartDate: v.optional(v.number()),
 		updatedAt: v.number(),
