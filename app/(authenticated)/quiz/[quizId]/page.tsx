@@ -97,7 +97,7 @@ export default function QuizPage() {
                     ))}
                 </div>
             </MainContent>
-            <Image src="/assets/pondering.svg" width={400} height={400} alt="Pondering" className="fixed bottom-0 left-0 transform -translate-x-1/4" />
+            <Image src="/assets/pondering.svg" width={400} height={400} alt="Pondering" className="fixed bottom-0 left-0 transform -translate-x-1/4 hidden lg:block" />
 
         </Container>
     );

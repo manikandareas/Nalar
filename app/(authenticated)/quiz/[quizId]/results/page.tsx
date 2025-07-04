@@ -7,6 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useQuery } from "convex/react";
 import { ArrowLeft, CheckCircle, Clock, XCircle } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
@@ -50,7 +51,7 @@ export default function QuizResultsPage() {
   };
 
   return (
-    <Container className="min-h-screen py-8">
+    <Container className="min-h-screen py-8 relative">
       <MainContent className="max-w-3xl">
         <div className="mb-8">
           <Link href={`/rooms/${quiz.threadId}`}>
@@ -178,13 +179,16 @@ export default function QuizResultsPage() {
             </Button>
           </Link>
 
-          <Link href="/dashboard">
+          <Link href="/rooms">
             <Button>
-              Go to Dashboard
+              Go to Home
             </Button>
           </Link>
         </div>
       </MainContent>
+      {
+        quiz?.score && quiz.score >= 75 ? <Image src={"/assets/jumping.svg"} alt="Girl Riding Scooter" width={500} height={500} className="fixed bottom-0 left-0 transform -translate-x-1/5 hidden lg:block" /> : <Image src={"/assets/safe-and-secure.svg"} alt="Girl Riding Scooter" width={500} height={500} className="fixed bottom-0 left-0 transform -translate-x-1/5 hidden lg:block" />
+      }
     </Container>
   );
 }
