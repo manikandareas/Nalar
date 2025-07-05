@@ -1,12 +1,12 @@
 "use client";
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { LinkPreview } from "@/components/ui/link-preview";
 import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
-import { CheckCircle, Circle, Dot, Loader2, Play } from "lucide-react";
+import { BotMessageSquare, CheckCircle, Loader2, Play, Rocket } from "lucide-react";
 
 export function LearningPlan() {
     const learningPlan = useQuery(api.learning.queries.getMyLearningPlan);
@@ -43,81 +43,92 @@ export function LearningPlan() {
         });
     };
 
-    const getStatusIcon = (status: string) => {
-        switch (status) {
-            case "completed":
-                return <CheckCircle className="w-5 h-5 text-green-500" />;
-            case "in-progress":
-                return <Play className="w-5 h-5 text-blue-500 fill-current" />;
-            default:
-                return <Circle className="w-5 h-5 text-muted-foreground" />;
-        }
-    };
-
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>{learningPlan.title}</CardTitle>
-                <CardDescription>{learningPlan.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <Accordion type="single" collapsible className="w-full">
-                    {learningPlan.steps.map((step, index) => (
-                        <AccordionItem value={`item-${index}`} key={index}>
-                            <AccordionTrigger className="flex items-center justify-between w-full">
-                                <div className="flex items-center gap-3">
-                                    {getStatusIcon(step.status)}
-                                    <span className="text-lg font-semibold">{step.title}</span>
+        <div className="space-y-8">
+            {/* Header */}
+            <div>
+                <h1 className="text-3xl font-bold tracking-tight text-foreground">{learningPlan.title}</h1>
+                <p className="mt-2 text-base text-muted-foreground max-w-2xl">{learningPlan.description}</p>
+            </div>
+
+            {/* Timeline */}
+            <div className="relative border-l-2 border-border/50 ml-3 pl-6 py-4 space-y-10">
+                {learningPlan.steps.map((step, index) => {
+                    const isInProgress = step.status === 'in-progress';
+                    const isCompleted = step.status === 'completed';
+
+                    return (
+                        <div key={index} className="relative">
+                            {/* Timeline Dot */}
+                            <div className={`absolute -left-[34px] top-1 w-4 h-4 rounded-full border-4 box-content
+                                ${isCompleted ? 'bg-green-500 border-green-500/30' : ''}
+                                ${isInProgress ? 'bg-blue-500 border-blue-500/30' : ''}
+                                ${step.status === 'not-started' ? 'bg-muted-foreground/50 border-muted-foreground/20' : ''}
+                            `}>
+                                {isInProgress && <div className="absolute inset-0 rounded-full bg-blue-500 animate-ping"></div>}
+                            </div>
+
+                            <div className="transition-all duration-300">
+                                {/* Title and Badge */}
+                                <div className="flex items-center justify-between">
+                                    <h2 className={`text-xl font-semibold ${isCompleted ? 'text-muted-foreground line-through' : 'text-foreground'}`}>{step.title}</h2>
+                                    <Badge variant={isCompleted ? 'default' : 'secondary'} className="text-xs font-medium">
+                                        {step.status.replace("-", " ")}
+                                    </Badge>
                                 </div>
-                                <Badge variant={step.status === "completed" ? "default" : "secondary"}>
-                                    {step.status.replace("-", " ")}
-                                </Badge>
-                            </AccordionTrigger>
-                            <AccordionContent className="pl-8">
-                                <p className="mb-4 text-muted-foreground">{step.description}</p>
+
+                                {/* Description */}
+                                <p className="mt-1 text-muted-foreground text-sm">{step.description}</p>
+
+                                {/* Resources */}
                                 {step.resources && step.resources.length > 0 && (
-                                    <div>
-                                        <h4 className="mb-2 font-semibold">Resources:</h4>
-                                        <ul className="space-y-2 list-disc list-inside">
+                                    <div className="mt-4 p-4 rounded-lg bg-muted/50 border">
+                                        <h4 className="mb-2 font-semibold text-xs uppercase text-muted-foreground tracking-wider">Suggested Resources</h4>
+                                        <ul className="space-y-2">
                                             {step.resources.map((resource, r_index) => (
-                                                <li key={r_index}>
-                                                    <a href={resource.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                                                <li key={r_index} className="flex items-center gap-2.5">
+                                                    <Rocket className="w-4 h-4 text-primary/80 shrink-0" />
+                                                    {/* <a href={resource.url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-primary hover:underline"> */}
+                                                    <LinkPreview className="text-sm font-medium text-primary hover:underline" url={resource.url}>
                                                         {resource.title}
-                                                    </a>
-                                                    <span className="ml-2 text-sm text-muted-foreground">({resource.type})</span>
+                                                    </LinkPreview>
+                                                    {/* </a> */}
+                                                    <span className="text-xs text-muted-foreground">({resource.type})</span>
                                                 </li>
                                             ))}
                                         </ul>
                                     </div>
                                 )}
-                                <div className="mt-6 pt-4 border-t">
-                                    <h4 className="mb-3 font-semibold">Your Progress</h4>
-                                    <div className="flex items-center gap-4">
-                                        {step.status === 'not-started' && (
-                                            <Button onClick={() => handleUpdateStatus(index, 'in-progress')}>
-                                                <Play className="w-4 h-4 mr-2" />
-                                                Start Learning
-                                            </Button>
-                                        )}
-                                        {step.status === 'in-progress' && (
-                                            <Button onClick={() => handleUpdateStatus(index, 'completed')}>
-                                                <CheckCircle className="w-4 h-4 mr-2" />
-                                                Mark as Complete
-                                            </Button>
-                                        )}
-                                        {step.status === 'completed' && (
-                                            <Button disabled variant="secondary" className="flex items-center gap-2 cursor-not-allowed">
-                                                <CheckCircle className="w-4 h-4" />
-                                                Completed
-                                            </Button>
-                                        )}
-                                    </div>
+
+                                {/* Action Buttons */}
+                                <div className="mt-4 flex items-center gap-2">
+                                    <Button variant="outline" size="sm">
+                                        Ask Nalar <BotMessageSquare className="w-4 h-4 ml-2" />
+                                    </Button>
+                                    {step.status === 'not-started' && (
+                                        <Button onClick={() => handleUpdateStatus(index, 'in-progress')} size="sm" className="group">
+                                            Start Step
+                                            <Play className="w-4 h-4 ml-2 group-hover:fill-current" />
+                                        </Button>
+                                    )}
+                                    {isInProgress && (
+                                        <Button onClick={() => handleUpdateStatus(index, 'completed')} size="sm">
+                                            Mark as Complete
+                                            <CheckCircle className="w-4 h-4 ml-2" />
+                                        </Button>
+                                    )}
+                                    {isCompleted && (
+                                        <div className="flex items-center gap-2 text-sm font-medium text-green-600">
+                                            <CheckCircle className="w-4 h-4" />
+                                            Completed
+                                        </div>
+                                    )}
                                 </div>
-                            </AccordionContent>
-                        </AccordionItem>
-                    ))}
-                </Accordion>
-            </CardContent>
-        </Card>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
     );
 }

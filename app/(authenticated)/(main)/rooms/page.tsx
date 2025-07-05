@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { api } from "@/convex/_generated/api"
 import { useCreateThread } from "@/features/chat/hooks/use-create-thread"
-import { LearningPlan } from "@/features/learning-plan/learning-plan"
 import { QuizHistorySheet } from "@/features/quiz/quiz-history-sheet"
 import { useQuery } from "convex/react"
 import { Brain, Flame, Loader2, SendHorizonal, Target, TrendingUp } from "lucide-react"
@@ -59,12 +58,8 @@ export default function HomePage() {
                     {/* Header with Paper Plane Icon */}
                     <div className="text-center mb-6 sm:mb-8">
                         <div className="inline-flex items-center justify-center font-bold mb-4 text-4xl text-primary">
-                            <span className="text-4xl font-bold px-2 rounded-sm bg-primary/10 aspect-square line-through">N</span>alar
+                            <span className="text-4xl font-bold px-2 rounded-sm bg-primary/10 aspect-square">N</span>alar
                         </div>
-                        {/* <div className="inline-flex items-center justify-center w-16 h-16 mb-4 bg-primary/10 rounded-full">
-                            <Sparkles className="w-8 h-8 text-primary" />
-                        </div> */}
-
                         <h1 className="text-2xl sm:text-3xl font-medium mb-4 font-mono sm:mb-6 px-4">
                             Time to expand your knowledge! {currentUser?.username}
                         </h1>
@@ -131,7 +126,7 @@ export default function HomePage() {
                         </Card>
 
                         {/* Learning Goals Card */}
-                        <Card className="p-4 sm:p-6 bg-card border-border sm:col-span-2 lg:col-span-2">
+                        <Card className="p-4 sm:p-6 bg-card border-border sm:col-span-2 lg:col-span-3">
                             <CardContent className="p-0">
                                 <div className="flex items-center space-x-3 mb-3">
                                     <Target className="h-5 w-5 text-muted-foreground" />
@@ -141,10 +136,6 @@ export default function HomePage() {
                                 <div className="text-sm text-muted-foreground">Tailored to your intermediate level</div>
                             </CardContent>
                         </Card>
-                    </div>
-
-                    <div className="mt-6 sm:mt-8">
-                        <LearningPlan />
                     </div>
                 </div>
             </MainContent>

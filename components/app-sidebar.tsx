@@ -19,7 +19,7 @@ import { api } from "@/convex/_generated/api"
 import { Doc } from "@/convex/_generated/dataModel"
 import { cn } from "@/lib/utils"
 import { useMutation, useQuery } from "convex/react"
-import { BookOpen, ChevronDown, FileText, MoreVertical, Plus, Search, Trash, Video } from "lucide-react"
+import { BookOpen, ChevronDown, MoreVertical, Plus, Search, Trash } from "lucide-react"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 import { NavUser } from "./nav-user"
@@ -27,8 +27,6 @@ import { NavUser } from "./nav-user"
 const navigationItems = [
     { title: "Search", icon: Search, url: "#" },
     { title: "Your Plans", icon: BookOpen, url: "/plans" },
-    { title: "Video Vault", icon: Video, url: "#" },
-    { title: "Read Articles", icon: FileText, url: "#" },
 ]
 
 export function AppSidebar() {
