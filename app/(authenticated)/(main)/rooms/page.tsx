@@ -2,33 +2,45 @@
 import { Container } from "@/components/container"
 import { MainContent } from "@/components/main-content"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import { SidebarTrigger } from "@/components/ui/sidebar"
+import { Textarea } from "@/components/ui/textarea"
+import { Toggle } from "@/components/ui/toggle"
 import { api } from "@/convex/_generated/api"
+import { MathAttachment } from "@/features/chat/chat-input"
 import { useCreateThread } from "@/features/chat/hooks/use-create-thread"
-import { QuizHistorySheet } from "@/features/quiz/quiz-history-sheet"
+import { MathInput } from "@/features/chat/math-input"
 import { useQuery } from "convex/react"
-import { Brain, Flame, Loader2, SendHorizonal, Target, TrendingUp } from "lucide-react"
+import { Calculator, Loader2, SendHorizonal, Type } from "lucide-react"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+type InputMode = 'text' | 'math';
 
 /**
  * Home page component with chat creation functionality
  */
 export default function HomePage() {
     const [prompt, setPrompt] = useState("")
+    const [mathAttachment, setMathAttachment] = useState<string | null>(null);
+    const [inputMode, setInputMode] = useState<InputMode>('text');
     const router = useRouter()
     const { createThread, isLoading, error } = useCreateThread();
     const currentUser = useQuery(api.users.queries.getCurrentUser);
 
     const handleCreateThread = async (e: React.FormEvent) => {
-        e.preventDefault()
-        if (prompt.trim() === "") return;
+        e.preventDefault();
+        const finalMessage = prompt.trim() +
+            (mathAttachment ? `
+            $$${mathAttachment}$$` : '');
+
+        if (!finalMessage) return;
 
         try {
-            const newId = await createThread(prompt);
+            const newId = await createThread(finalMessage);
             if (newId) {
+                setPrompt("");
+                setMathAttachment(null);
+                setInputMode('text');
                 router.push(`/rooms/${newId}`)
             }
         } catch (err) {
@@ -37,109 +49,102 @@ export default function HomePage() {
         }
     }
 
-    return (<>
-        <Container>
-            {/* Top Navigation */}
+    return (
+        <Container className="relative overflow-hidden h-[calc(100vh-16px)]">
             <header className="flex h-16 shrink-0 items-center gap-2 px-4">
                 <SidebarTrigger className="-ml-1" />
-                <div className="flex items-center space-x-2 ml-auto">
-                    <QuizHistorySheet>
-                        <Button variant="gradient" size="sm" className="hidden md:flex">
-                            <Brain className="h-4 w-4 mr-2" />
-                            Quiz
-                        </Button>
-                    </QuizHistorySheet>
-                </div>
             </header>
-
-            {/* Main Dashboard */}
             <MainContent>
-                <div className="max-w-6xl mx-auto">
-                    {/* Header with Paper Plane Icon */}
-                    <div className="text-center mb-6 sm:mb-8">
-                        <div className="inline-flex items-center justify-center font-bold mb-4 text-4xl text-primary">
-                            <span className="text-4xl font-bold px-2 rounded-sm bg-primary/10 aspect-square">N</span>alar
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-12">
+                        <div className="inline-flex items-center justify-center font-bold mb-2 text-3xl text-primary">
+                            <span className="bg-primary/10 text-primary p-2 rounded-lg flex items-center justify-center aspect-square">
+                                N
+                            </span>
+                            <span className="ml-3">Nalar</span>
                         </div>
-                        <h1 className="text-2xl sm:text-3xl font-medium mb-4 font-mono sm:mb-6 px-4">
-                            Time to expand your knowledge! {currentUser?.username}
-                        </h1>
+                        <p className="text-lg text-muted-foreground">
+                            Hello, {currentUser?.username || "friend"}. What shall we explore today?
+                        </p>
                     </div>
+                    <div className="mb-6  z-50 sm:mb-8 w-full mx-auto border-t border-gray-200 rounded-2xl bg-zinc-500/5 backdrop-blur-sm p-2 sm:p-4 shadow-md relative">
+                        <form onSubmit={handleCreateThread} className="relative space-y-4">
+                            {inputMode === 'text' ? (
+                                <Textarea
+                                    value={prompt}
+                                    onChange={(e) => setPrompt(e.target.value)}
+                                    placeholder="What do you want to learn about?"
+                                    className="w-full p-4 pr-28 text-base rounded-lg border-2 bg-background/80 focus:border-primary"
+                                    rows={1}
+                                    disabled={isLoading}
+                                />
+                            ) : (
+                                <div className="w-full border rounded-xl overflow-hidden shadow-sm">
+                                    <MathInput
+                                        value={mathAttachment || ""}
+                                        onChange={(latex) => {
+                                            setMathAttachment(latex);
+                                        }}
+                                    />
+                                </div>
+                            )}
 
-                    {/* Search Input */}
-                    <div className="mb-6 sm:mb-8 w-full mx-auto">
-                        <form onSubmit={handleCreateThread} className="relative">
-                            <Input
-                                value={prompt}
-                                onChange={(e) => setPrompt(e.target.value)}
-                                placeholder="Ask anything..."
-                                className="w-full h-12 pl-4 pr-12 text-base bg-muted border-border rounded-lg"
-                            />
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 text-muted-foreground"
-                                disabled={isLoading}
-                                type="submit"
-                            >
-                                {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <SendHorizonal />}
-                            </Button>
+                            {mathAttachment && (
+                                <MathAttachment
+                                    content={mathAttachment}
+                                    onRemove={() => setMathAttachment(null)}
+                                    onClick={() => setInputMode('math')}
+                                />
+                            )}
+
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <Toggle
+                                        pressed={inputMode === 'text'}
+                                        onPressedChange={() => setInputMode('text')}
+                                        size="sm"
+                                        variant="outline"
+                                        aria-label="Text mode"
+                                        className={inputMode === 'text' ? "bg-teal-50 border-teal-200" : ""}
+                                    >
+                                        <Type className="h-4 w-4" />
+                                        <span className="ml-2">Text</span>
+                                    </Toggle>
+                                    <Toggle
+                                        pressed={inputMode === 'math'}
+                                        onPressedChange={() => setInputMode('math')}
+                                        size="sm"
+                                        variant="outline"
+                                        aria-label="Math mode"
+                                        className={inputMode === 'math' ? "bg-teal-50 border-teal-200" : ""}
+                                    >
+                                        <Calculator className="h-4 w-4" />
+                                        <span className="ml-2">Math</span>
+                                    </Toggle>
+                                </div>
+                                <Button
+                                    type="submit"
+                                    size="icon"
+                                    disabled={(!prompt.trim() && !mathAttachment) || isLoading}
+                                >
+                                    {isLoading ? (
+                                        <Loader2 className="h-4 w-4 animate-spin" />
+                                    ) : (
+                                        <SendHorizonal className="h-4 w-4" />
+                                    )}
+                                </Button>
+                            </div>
                         </form>
-                    </div>
-
-                    {/* Dashboard Cards */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                        {/* Streak Card */}
-                        <Card className="p-4 sm:p-6 bg-card border-border">
-                            <CardContent className="p-0">
-                                <div className="flex items-center space-x-3 mb-3">
-                                    <Flame className="h-5 w-5 text-orange-500" />
-                                    <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">STREAK</span>
-                                </div>
-                                <div className="text-2xl font-bold mb-1">1 days</div>
-                                <div className="text-sm text-muted-foreground">Great start!</div>
-                            </CardContent>
-                        </Card>
-
-                        {/* Progress Card - Highlighted */}
-                        <Card className="p-4 sm:p-6 bg-primary/10 border-primary/20">
-                            <CardContent className="p-0">
-                                <div className="flex items-center space-x-3 mb-3">
-                                    <TrendingUp className="h-5 w-5 text-green-500" />
-                                    <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">PROGRESS</span>
-                                </div>
-                                <div className="text-2xl font-bold mb-1">+0.12%</div>
-                                <div className="text-sm text-muted-foreground">2 study sessions</div>
-                                <div className="text-sm text-muted-foreground">this week</div>
-                            </CardContent>
-                        </Card>
-
-                        {/* Practice Card */}
-                        <Card className="p-4 sm:p-6 bg-card border-border sm:col-span-2 lg:col-span-1">
-                            <CardContent className="p-0">
-                                <div className="flex items-center space-x-3 mb-3">
-                                    <Brain className="h-5 w-5 text-purple-500" />
-                                    <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">PRACTICE</span>
-                                </div>
-                                <div className="text-2xl font-bold mb-1">0 / 0</div>
-                                <div className="text-sm text-muted-foreground">No problems yet</div>
-                            </CardContent>
-                        </Card>
-
-                        {/* Learning Goals Card */}
-                        <Card className="p-4 sm:p-6 bg-card border-border sm:col-span-2 lg:col-span-3">
-                            <CardContent className="p-0">
-                                <div className="flex items-center space-x-3 mb-3">
-                                    <Target className="h-5 w-5 text-muted-foreground" />
-                                    <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">LEARNING GOALS</span>
-                                </div>
-                                <div className="text-lg font-semibold mb-1">Mathematics</div>
-                                <div className="text-sm text-muted-foreground">Tailored to your intermediate level</div>
-                            </CardContent>
-                        </Card>
                     </div>
                 </div>
             </MainContent>
+            <Image
+                src="/assets/Waiting.svg"
+                alt="Waiting"
+                width={400}
+                height={400}
+                className="mx-auto absolute bottom-0 left-1/2 -translate-x-1/2 z-0 translate-y-1/5"
+            />
         </Container>
-    </>
     )
 }
