@@ -17,7 +17,7 @@ interface IMessageAreaProps {
  * Component that displays chat messages in a scrollable area
  */
 export const MessagesArea: React.FC<IMessageAreaProps> = ({ threadId }) => {
-    const { messages, isLoadingMessages, sendInitialMessage, roomDetails } = useChat(threadId);
+    const { messages, isLoadingMessages } = useChat(threadId);
     const containerRef = useRef<HTMLDivElement>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -114,11 +114,6 @@ export const MessagesArea: React.FC<IMessageAreaProps> = ({ threadId }) => {
             scrollToBottom();
         }
     }, [messages]);
-
-    // Send initial message when room details are available
-    useEffect(() => {
-        sendInitialMessage();
-    }, [roomDetails]);
 
     return (
         <div className="w-full mb-28">

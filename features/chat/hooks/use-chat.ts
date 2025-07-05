@@ -38,10 +38,6 @@ export const useChat = (threadId: string) => {
         [threadId, sendMessageMutation]
     );
 
-    const sendInitialMessage = () => {
-        if (!roomDetails || messages.length > 0) return;
-        sendChatMessage(roomDetails.title);
-    }
 
     return {
         messages,
@@ -50,6 +46,5 @@ export const useChat = (threadId: string) => {
         error,
         sendMessage: sendChatMessage,
         isLoadingMessages: isLoading,
-        sendInitialMessage,
     };
 };

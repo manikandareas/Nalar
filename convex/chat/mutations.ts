@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { internal } from "../_generated/api";
+import { api, internal } from "../_generated/api";
 import { mutation } from "../_generated/server";
 import { nalarAgent } from "../model";
 import { assertUserAuthenticated } from "../users/utils";
@@ -25,6 +25,11 @@ export const createThread = mutation({
             isArchived: false,
             title: args.prompt,
         });
+
+        ctx.runMutation(api.chat.mutations.streamChatAsynchronously, {
+            prompt: args.prompt,
+            threadId,
+        })
 
         return threadId;
     },
