@@ -57,6 +57,7 @@ const schema = defineSchema({
 				url: v.string(),
 				type: v.string(),
 			}))),
+			threadId: v.optional(v.string()),
 		})),
 		createdAt: v.number(),
 		updatedAt: v.number(),

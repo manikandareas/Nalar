@@ -1,9 +1,9 @@
-import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Kalam } from "next/font/google";
 import "./globals.css";
 // Import KaTeX CSS for math rendering
+import { TanstackQueryWithConvexProvider } from "@/lib/tanstack-query-with-convex";
 import 'katex/dist/katex.min.css';
 
 
@@ -42,7 +42,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${kalam.variable} antialiased`}
       >
         <ClerkProvider dynamic>
-          <ConvexClientProvider>{children}</ConvexClientProvider>
+          <TanstackQueryWithConvexProvider>{children}</TanstackQueryWithConvexProvider>
         </ClerkProvider>
       </body>
     </html>

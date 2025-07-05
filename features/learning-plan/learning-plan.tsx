@@ -1,16 +1,32 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LinkPreview } from "@/components/ui/link-preview";
 import { api } from "@/convex/_generated/api";
-import { useMutation, useQuery } from "convex/react";
+import { Id } from "@/convex/_generated/dataModel";
+import { convexQuery } from "@convex-dev/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "convex/react";
 import { BotMessageSquare, CheckCircle, Loader2, Play, Rocket } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export function LearningPlan() {
-    const learningPlan = useQuery(api.learning.queries.getMyLearningPlan);
+    const { data: learningPlan } = useQuery(convexQuery(api.learning.queries.getMyLearningPlan, {}))
     const updateStepStatus = useMutation(api.learning.mutations.updateLearningPlanStepStatus);
+    const askNalar = useMutation(api.learning.mutations.askNalar);
+    const router = useRouter();
+
+    const handleAskNalar = async (planId: Id<"learning_plans">, stepIndex: number) => {
+        await askNalar({
+            planId,
+            stepIndex,
+        }).then((threadId) => {
+            router.push(`/rooms/${threadId}`);
+        })
+    }
 
     if (learningPlan === undefined) {
         return (
@@ -102,9 +118,24 @@ export function LearningPlan() {
 
                                 {/* Action Buttons */}
                                 <div className="mt-4 flex items-center gap-2">
-                                    <Button variant="outline" size="sm">
-                                        Ask Nalar <BotMessageSquare className="w-4 h-4 ml-2" />
-                                    </Button>
+                                    {
+                                        step.threadId ? (
+                                            <Link
+                                                href={`/rooms/${step.threadId}`}
+                                                className={buttonVariants({ variant: "secondary", size: "sm" })}
+                                            >
+                                                Jump to Nalar <BotMessageSquare className="w-4 h-4 ml-2" />
+                                            </Link>
+                                        ) : (
+                                            <Button
+                                                onClick={() => handleAskNalar(learningPlan._id, index)}
+                                                variant="outline"
+                                                size="sm"
+                                            >
+                                                Ask Nalar <BotMessageSquare className="w-4 h-4 ml-2" />
+                                            </Button>
+                                        )
+                                    }
                                     {step.status === 'not-started' && (
                                         <Button onClick={() => handleUpdateStatus(index, 'in-progress')} size="sm" className="group">
                                             Start Step
