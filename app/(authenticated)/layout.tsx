@@ -42,5 +42,5 @@ export default function AuthenticatedLayout({
     return null;
   }
 
-  return <>{children}</>;
+  return children
 }
