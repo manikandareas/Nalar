@@ -23,7 +23,7 @@ interface MessageProps extends UIMessage {
  */
 export const Message: React.FC<MessageProps> = (props) => {
     const { data: user } = useQuery(convexQuery(api.users.queries.getCurrentUser, {}))
-    const { content, role, className, parts } = props;
+    const { content, role, className, parts, status } = props;
     const [visibleText] = useSmoothText(content);
     const isUser = role === "user";
 
@@ -33,16 +33,19 @@ export const Message: React.FC<MessageProps> = (props) => {
         <div className={cn("group relative mb-6 px-4", className)}>
             <div className={cn(
                 "flex gap-3 max-w-4xl mx-auto",
-                isUser ? "justify-end" : "justify-start"
+                isUser ? "justify-end" : "items-start flex-col"
             )}>
 
                 {/* AI Avatar - only shown for AI messages */}
                 {!isUser && (
-                    <Avatar className="h-8 w-8 bg-primary flex-shrink-0 mt-1">
-                        <AvatarFallback className=" text-sm font-medium">
-                            <Bot className="h-4 w-4" />
-                        </AvatarFallback>
-                    </Avatar>
+                    <div className="flex items-center gap-2">
+                        <Avatar className="h-8 w-8 bg-primary flex-shrink-0 mt-1">
+                            <AvatarFallback className=" text-sm font-medium">
+                                <Bot className="h-4 w-4" />
+                            </AvatarFallback>
+                        </Avatar>
+                        <p className="text-sm font-semibold text-primary">Nalar V1</p>
+                    </div>
                 )}
 
                 {/* Message Content */}
@@ -56,7 +59,9 @@ export const Message: React.FC<MessageProps> = (props) => {
                 >
                     {/* Agent steps visualization */}
                     {hasSteps && (
-                        <StepsContainer parts={parts} />
+                        <div className="px-1">
+                            <StepsContainer parts={parts} />
+                        </div>
                     )}
 
                     {/* Final message text, only if there is content */}

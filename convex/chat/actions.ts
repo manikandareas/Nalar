@@ -10,7 +10,7 @@ export const streamChat = internalAction({
     handler: async (ctx, { promptMessageId, threadId }) => {
         const { thread } = await nalarAgent.continueThread(ctx, { threadId });
         const result = await thread.streamText(
-            { promptMessageId, maxSteps: 2 },
+            { promptMessageId },
             { saveStreamDeltas: true },
         );
         await result.consumeStream();

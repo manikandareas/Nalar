@@ -76,7 +76,7 @@ export function LearningPlan() {
                     return (
                         <div key={index} className="relative">
                             {/* Timeline Dot */}
-                            <div className={`absolute -left-[34px] top-1 w-4 h-4 rounded-full border-4 box-content
+                            <div className={`absolute -left-[37px] top-1 w-4 h-4 rounded-full border-4 box-content
                                 ${isCompleted ? 'bg-green-500 border-green-500/30' : ''}
                                 ${isInProgress ? 'bg-blue-500 border-blue-500/30' : ''}
                                 ${step.status === 'not-started' ? 'bg-muted-foreground/50 border-muted-foreground/20' : ''}

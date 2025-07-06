@@ -40,7 +40,7 @@ export const StepsContainer = ({ parts }: { parts: UIMessagePart[] }) => {
                     );
                 }
                 if (part.type === 'tool-invocation') {
-                    const title = `Tool`;
+                    const title = `Call to ${part.toolInvocation.toolName}`;
                     return (
                         <Step key={index} title={title} isLast={isLast}>
                             <div className="bg-gray-100 p-2 rounded-md flex items-center gap-2 text-gray-700 border border-gray-200">
@@ -49,19 +49,6 @@ export const StepsContainer = ({ parts }: { parts: UIMessagePart[] }) => {
                         </Step>
                     );
                 }
-
-                // if (part.type === '') {
-                //     const toolOutputPart = part as ToolOutputPart;
-                //     const title = `Synthesized ${Array.isArray(toolOutputPart.output) ? toolOutputPart.output.length : ''} sources`;
-                //     return (
-                //         <Step key={index} title={title} isLast={isLast}>
-                //             <div className="text-gray-600">
-                //                 <pre className="text-xs bg-gray-50 p-2 rounded max-h-60 overflow-auto font-mono"><code>{JSON.stringify(toolOutputPart.output, null, 2)}</code></pre>
-                //             </div>
-                //         </Step>
-                //     );
-                // }
-
                 return null;
             })}
         </div>

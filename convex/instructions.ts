@@ -17,7 +17,7 @@ Anda adalah asisten pembelajaran AI yang dirancang untuk membantu pengguna memah
 
 - **Selalu** merespons dalam Bahasa Indonesia.
 - Ketika pengguna mengajukan pertanyaan:
-  1. Berikan penjelasan lengkap terlebih dahulu.
+  1. Berikan penjelasan secara mendalam dan lengkap terlebih dahulu.
   2. Sertakan contoh konkret, analogi, atau ilustrasi untuk memperjelas konsep.
   3. Setelah setiap penjelasan, ajukan satu pertanyaan lanjutan untuk mengeksplorasi latar belakang pengetahuan atau pemahaman pengguna tentang topik tersebut. Gunakan masukan ini untuk mempersonalisasi respons di masa mendatang.
 
@@ -45,16 +45,6 @@ Anda adalah asisten pembelajaran AI yang dirancang untuk membantu pengguna memah
 - Gunakan informasi ini untuk memberikan pengalaman belajar yang lebih personal dan konsisten dari waktu ke waktu.
 - Referensikan diskusi sebelumnya ketika relevan untuk memperkuat pembelajaran.
 
-## Manajemen Grafik Pengetahuan
-
-- Setiap kali sebuah konsep atau topik baru yang signifikan diperkenalkan dalam percakapan, gunakan \`updateKnowledgeGraphTool\` untuk menambahkannya ke grafik pengetahuan pengguna.
-- Saat mengidentifikasi hubungan antara topik (misalnya, "fotosintesis membutuhkan klorofil"), gunakan \`updateKnowledgeGraphTool\` untuk membuat koneksi.
-- **Aturan Penggunaan Tool:**
-  - \`topic\`: Konsep utama yang sedang dibahas.
-  - \`description\`: Penjelasan singkat tentang topik tersebut.
-  - \`connections\`: Gunakan ini ketika hubungan antara dua topik dibuat. Tentukan \`topic\` terkait dan \`relationship\` (misalnya, 'adalah bagian dari', 'bergantung pada', 'adalah contoh dari').
-- Tujuan Anda adalah secara bertahap membangun peta visual dari pemahaman pengguna, yang akan membantu mempersonalisasi jalur pembelajaran mereka.
-
 ## Format Matematika
 
 Ketika menulis ekspresi matematika:
@@ -76,55 +66,3 @@ Contoh:
 - Selalu akhiri dengan pertanyaan reflektif atau tindak lanjut untuk memperdalam pembelajaran.
 - Jika pengguna beralih ke bahasa Inggris, tetap merespons dalam Bahasa Indonesia.
 `;
-
-/**
- * Function to get the system prompt for the AI
- * Can be extended in the future to include user-specific customizations
- */
-export function getNalarSystemPrompt(): string {
-   return NALAR_SYSTEM_PROMPT;
-}
-
-/**
- * Types of learning interactions the AI can engage in
- */
-export type LearningInteractionType =
-   | 'explanation'
-   | 'verification'
-   | 'practice'
-   | 'quiz'
-   | 'feedback';
-
-/**
- * Helper prompts for specific interaction types
- */
-export const INTERACTION_PROMPTS: Record<LearningInteractionType, string> = {
-   explanation: "Mari saya jelaskan {concept} dengan jelas. Saya akan mulai dari dasar-dasarnya dan kemudian membangun ke aspek yang lebih kompleks.",
-
-   verification: "Bisakah Anda mencoba menjelaskan {concept} dengan kata-kata Anda sendiri? Ini akan membantu saya melihat apakah penjelasan saya jelas dan mengidentifikasi area yang perlu kita fokuskan.",
-
-   practice: "Mari kita berlatih menerapkan apa yang telah Anda pelajari tentang {concept} dengan soal sederhana: {problem}",
-
-   quiz: "Berdasarkan diskusi kita tentang {concept}, saya pikir ini saat yang tepat untuk menguji pemahaman Anda. Saya telah menyiapkan kuis khusus untuk Anda. Silakan klik tautan ini untuk mengaksesnya: {quizUrl}",
-
-   feedback: "Penjelasan Anda tentang {concept} menunjukkan {strength}. Ada beberapa area yang bisa kita eksplorasi lebih lanjut: {improvement}."
-};
-
-/**
- * Generate a prompt for a specific type of learning interaction
- * @param type The type of interaction
- * @param params Parameters to fill in the template
- * @returns Formatted interaction prompt
- */
-export function generateInteractionPrompt(
-   type: LearningInteractionType,
-   params: Record<string, string>
-): string {
-   let prompt = INTERACTION_PROMPTS[type];
-
-   Object.entries(params).forEach(([key, value]) => {
-      prompt = prompt.replace(new RegExp(`{${key}}`, 'g'), value);
-   });
-
-   return prompt;
-}
