@@ -84,7 +84,10 @@ export const getUserQuizzes = query({
 
 // Get completed quiz history for the current user
 export const getHistory = query({
-    handler: async (ctx) => {
+    args: {
+        threadId: v.optional(v.string())
+    },
+    handler: async (ctx, args) => {
         const identity = await ctx.auth.getUserIdentity();
         if (!identity) {
             return [];
@@ -98,12 +101,16 @@ export const getHistory = query({
         if (!user) {
             return [];
         }
-
-        return await ctx.db
+        const quizzes = await ctx.db
             .query("quizzes")
             .withIndex("by_userId", (q) => q.eq("userId", user._id))
             .filter((q) => q.eq(q.field("status"), "completed"))
             .order("desc")
             .collect();
+
+        if (args.threadId) {
+            return quizzes.filter(q => q.threadId === args.threadId)
+        }
+        return quizzes
     },
 });

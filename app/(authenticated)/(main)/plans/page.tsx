@@ -1,4 +1,3 @@
-"use client"
 import { Container } from "@/components/container"
 import { MainContent } from "@/components/main-content"
 import { SidebarTrigger } from "@/components/ui/sidebar"
@@ -13,7 +12,7 @@ export default function LearningPlansPage() {
             <header className="flex h-16 shrink-0 items-center gap-2 px-4">
                 <SidebarTrigger className="-ml-1" />
             </header>
-            <MainContent className="max-w-4xl w-full mx-auto">
+            <MainContent className="max-w-4xl w-full mx-auto py-0">
                 <LearningPlan />
             </MainContent>
         </Container>

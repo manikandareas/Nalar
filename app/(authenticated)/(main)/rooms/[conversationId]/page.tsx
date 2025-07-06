@@ -14,7 +14,7 @@ const ConversationPage: React.FC<IConversationPageProps> = async (props) => {
     const { conversationId } = await props.params
     return (
         <Container className="flex flex-col h-[calc(100vh-1rem)]">
-            <ChatHeader />
+            <ChatHeader threadId={conversationId} />
             <MainContent className="max-w-4xl w-full mx-auto flex-1 overflow-y-auto px-4">
                 <MessagesArea threadId={conversationId} />
             </MainContent>

@@ -58,9 +58,9 @@ export const ChatInput: React.FC<IChatInputProps> = ({ threadId }) => {
     return (
         <div className="border-t border-gray-200 rounded-2xl bg-zinc-500/5 backdrop-blur-sm p-2 sm:p-4 shadow-md relative">
             <div className="w-full flex flex-col">
-                <div className="w-full sm:w-auto mb-2 sm:mb-3">
+                <div className="w-fit mb-2 sm:mb-3">
                     <TooltipProvider>
-                        <Tooltip>
+                        <Tooltip >
                             <TooltipTrigger asChild>
                                 <div className="flex items-center text-xs text-gray-500 justify-center sm:justify-start">
                                     <Info className="h-3.5 w-3.5 mr-1" />

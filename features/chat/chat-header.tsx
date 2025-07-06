@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { ExternalLink } from "lucide-react"
-import { useParams } from "next/navigation"
+import { FolderPen } from "lucide-react"
+import { QuizHistorySheet } from "../quiz/quiz-history-sheet"
 import { useChat } from "./hooks/use-chat"
 
 /**
@@ -11,18 +11,16 @@ import { useChat } from "./hooks/use-chat"
  */
 interface ChatHeaderProps {
     title?: string;
+    threadId: string
 }
 
 /**
  * Header component for the chat interface
  */
-export function ChatHeader({ title }: ChatHeaderProps = {}) {
-    // Get the conversation ID from the URL params
-    const params = useParams();
-    const conversationId = params?.conversationId as string;
+export function ChatHeader({ title, threadId }: ChatHeaderProps) {
 
     // Get room details if we have a conversation ID
-    const { roomDetails } = conversationId ? useChat(conversationId) : { roomDetails: null };
+    const { roomDetails } = threadId ? useChat(threadId) : { roomDetails: null };
 
     // Use provided title or room details title or default
     const chatTitle = title || (roomDetails?.title) || "New Conversation";
@@ -36,10 +34,12 @@ export function ChatHeader({ title }: ChatHeaderProps = {}) {
             </div>
 
             <div className="flex items-center space-x-2">
-                <Button variant="ghost" size="sm" className="text-gray-600 hidden sm:flex">
-                    <ExternalLink className="h-4 w-4 mr-2" />
-                    Tools
-                </Button>
+                <QuizHistorySheet threadId={threadId}>
+                    <Button variant="ghost" size="sm" className="hidden md:flex text-gray-600">
+                        <FolderPen className="h-4 w-4 mr-2" />
+                        Quiz
+                    </Button>
+                </QuizHistorySheet>
             </div>
         </header>
     )
