@@ -1,5 +1,3 @@
-"use client";
-
 import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import {
   Authenticated,
