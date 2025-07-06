@@ -18,7 +18,9 @@ const queryClient = new QueryClient({
 });
 convexQueryClient.connect(queryClient);
 
-interface ITanstackQueryWithConvexProviderProps extends React.PropsWithChildren { }
+interface ITanstackQueryWithConvexProviderProps {
+    children: React.ReactNode;
+}
 
 export const TanstackQueryWithConvexProvider: React.FC<ITanstackQueryWithConvexProviderProps> = (props) => {
     return (

@@ -24,7 +24,7 @@ export default function HomePage() {
     const [mathAttachment, setMathAttachment] = useState<string | null>(null);
     const [inputMode, setInputMode] = useState<InputMode>('text');
     const router = useRouter()
-    const { createThread, isLoading, error } = useCreateThread();
+    const { createThread, isLoading } = useCreateThread();
     const currentUser = useQuery(api.users.queries.getCurrentUser);
 
     const handleCreateThread = async (e: React.FormEvent) => {

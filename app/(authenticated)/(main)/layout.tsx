@@ -3,7 +3,9 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { FC } from "react";
 
 
-interface IMainLayoutProps extends React.PropsWithChildren { };
+interface IMainLayoutProps {
+    children: React.ReactNode;
+};
 
 const MainLayout: FC<IMainLayoutProps> = (props) => {
     return (

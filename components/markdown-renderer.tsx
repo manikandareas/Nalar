@@ -12,10 +12,10 @@ import { buttonVariants } from "./ui/button";
 
 // Define a generic type for ReactMarkdown components
 type MarkdownComponentProps = {
-    node?: any;
     inline?: boolean;
     className?: string;
     children?: React.ReactNode;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
 };
 
@@ -47,7 +47,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
                 components={{
 
                     // Code block styling
-                    code({ node, inline, className, children, ...props }: MarkdownComponentProps) {
+                    code({ inline, className, children, ...props }: MarkdownComponentProps) {
                         const match = /language-(\w+)/.exec(className || '');
                         const language = match ? match[1] : '';
 

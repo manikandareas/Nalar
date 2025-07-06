@@ -58,7 +58,7 @@ export default function UsernamePage() {
             Your personal AI Learning companion for any subject of you want.
           </p>
           <p className="text-muted-foreground text-sm">
-            Let's get your account set up. Please choose a username.
+            Let&apos;s get your account set up. Please choose a username.
           </p>
         </div>
         <Form {...form}>
@@ -68,7 +68,6 @@ export default function UsernamePage() {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  {/* <FormLabel>Username</FormLabel> */}
                   <FormControl>
                     <Input placeholder="e.g., manikandareas" {...field} />
                   </FormControl>

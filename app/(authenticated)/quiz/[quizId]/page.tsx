@@ -23,7 +23,6 @@ export default function QuizPage() {
         submitAnswer,
         nextQuestion,
         finishQuiz,
-        isQuizCompleted,
     } = useQuiz({ quizId: quizId as Id<"quizzes"> });
 
     // Handle submission of the current question

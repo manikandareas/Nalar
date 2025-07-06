@@ -12,7 +12,7 @@ const OnboardingLayout = ({ children }: { children: React.ReactNode }) => {
         if (!isLoading && !isAuthenticated) {
             router.push("/")
         }
-    }, [isAuthenticated, isLoading])
+    }, [isAuthenticated, isLoading, router])
     return <div className="relative h-screen w-full">
 
         {children}
