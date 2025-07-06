@@ -139,20 +139,18 @@ export default function HomePage() {
                         </form>
                     </div>
                 </div>
-                <div className="flex flex-wrap justify-center gap-2 mt-6 max-w-2xl mx-auto">
-
+                <div className="flex flex-wrap justify-center gap-2 mt-6 max-w-2xl mx-auto z-50">
                     {
                         !mathAttachment && promptTemplateOptions.map(p => <PromptTemplate key={p.label} label={p.label} onClick={() => handlePromptTemplateClick(p.prompt)} />)
                     }
-
                 </div>
             </MainContent>
             <Image
-                src="/assets/Waiting.svg"
-                alt="Waiting"
-                width={400}
-                height={400}
-                className="mx-auto absolute bottom-0 left-1/2 -translate-x-1/2 z-0 translate-y-1/5"
+                src="/assets/Growth.svg"
+                alt="Growth"
+                width={350}
+                height={350}
+                className="mx-auto absolute bottom-0 right-0 scale-x-[-1] translate-x-1/5 z-0 hidden lg:block"
             />
         </Container>
     )

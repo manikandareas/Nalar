@@ -60,7 +60,7 @@ export default function LearningGoalsPage() {
             generatePlan({
                 userId: currentUser!._id,
             });
-            router.push("/"); // Navigate to dashboard after completion
+            router.push("/rooms"); // Navigate to dashboard after completion
         } catch (error) {
             console.error("Failed to save learning goals:", error);
         }
