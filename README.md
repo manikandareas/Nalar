@@ -1,51 +1,66 @@
-# Welcome to your Convex + Next.js + Clerk app
+# 🧠 Nalar – AI-Powered Adaptive Learning Platform
 
-This is a [Convex](https://convex.dev/) project created with [`npm create convex`](https://www.npmjs.com/package/create-convex).
+Nalar adalah platform pembelajaran adaptif yang memanfaatkan kekuatan Generative AI untuk memberikan pengalaman belajar personal, seolah-olah pengguna memiliki tutor pribadi. Dibangun untuk membantu siswa SMA, mahasiswa, dan lifelong learners dalam memahami konsep-konsep kompleks secara efektif, Nalar menggabungkan Agentic AI, Retrieval-Augmented Generation (RAG), dan vector search untuk mendukung pembelajaran yang kontekstual, interaktif, dan relevan.
 
-After the initial setup (<2 minutes) you'll have a working full-stack app using:
+## 🚀 Demo
 
-- Convex as your backend (database, server logic)
-- [React](https://react.dev/) as your frontend (web page interactivity)
-- [Next.js](https://nextjs.org/) for optimized web hosting and page routing
-- [Tailwind](https://tailwindcss.com/) for building great looking accessible UI
-- [Clerk](https://clerk.com/) for authentication
+👉 [Live Demo](https://nalar-gold.vercel.app/)
 
-## Get started
+---
 
-If you just cloned this codebase and didn't use `npm create convex`, run:
+## 📌 Features
 
-```
+- 💬 **AI Tutor Chat (Nalar)**  
+  Chat interaktif dengan AI yang memahami konteks pengguna, membuat quiz otomatis, dan mengambil resource terpercaya dari internet.
+
+- 📊 **Adaptive Learning Assessment**  
+  Menilai baseline knowledge dan gaya belajar pengguna secara otomatis, serta menyesuaikan kesulitan materi secara dinamis.
+
+- 🗺️ **Personalized Learning Plan**  
+  Rencana belajar yang dihasilkan berdasarkan hasil assessment dan preferensi gaya belajar.
+
+- ✅ **Practice Problems + Feedback Instan**  
+  Soal latihan yang disesuaikan dengan topik dan level pemahaman, dengan evaluasi langsung dari AI.
+
+- 🧠 **Study Session Planner**  
+  Perencana sesi belajar berbasis AI dengan spaced repetition dan smart reminders.
+
+---
+
+## 🧑‍💻 Tech Stack
+
+| Layer        | Tools/Frameworks                     |
+|--------------|--------------------------------------|
+| Frontend     | Next.js 15, TypeScript, TailwindCSS  |
+| State Mgmt   | TanStack Query                       |
+| Backend      | Convex (DB + Logic + Vector Search)  |
+| Deployment   | Vercel                               |
+| AI Models    | OpenAI GPT-4.1, GPT-4.1 Mini, Text-Embedding-3-Small |
+| Dev Tools    | Gemini 2.5 Pro (ideation), IBM Granite (debug & docs) |
+
+---
+
+## 🧠 AI & Prompting Strategy
+
+- **Agentic AI**: Nalar dibangun menggunakan pendekatan agent AI dengan memory dan tool usage.
+- **RAG (Retrieval-Augmented Generation)**: Mengambil konteks tambahan dari resource terpercaya untuk menjawab pertanyaan secara akurat dan mencegah halusinasi.
+- **Prompt Engineering**: Disusun untuk mengarahkan AI bertindak sebagai tutor, evaluator, dan planner secara bergantian sesuai konteks percakapan.
+
+---
+
+## 🛠️ Development Setup
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/your-username/nalar.git
+cd nalar
+
+# 2. Install dependencies
 npm install
+
+# 3. Setup environment variables
+cp .env.example .env
+# 🔑 Add your OpenAI key, Convex project ID, etc.
+
+# 4. Start the dev server
 npm run dev
-```
-
-If you're reading this README on GitHub and want to use this template, run:
-
-```
-npm create convex@latest -- -t nextjs-clerk
-```
-
-Then:
-
-1. Open your app. There should be a "Claim your application" button from Clerk in the bottom right of your app.
-2. Follow the steps to claim your application and link it to this app.
-3. Follow step 3 in the [Convex Clerk onboarding guide](https://docs.convex.dev/auth/clerk#get-started) to create a Convex JWT template.
-4. Uncomment the Clerk provider in `convex/auth.config.ts`
-5. Paste the Issuer URL as `CLERK_JWT_ISSUER_DOMAIN` to your dev deployment environment variable settings on the Convex dashboard (see [docs](https://docs.convex.dev/auth/clerk#configuring-dev-and-prod-instances))
-
-If you want to sync Clerk user data via webhooks, check out this [example repo](https://github.com/thomasballinger/convex-clerk-users-table/).
-
-## Learn more
-
-To learn more about developing your project with Convex, check out:
-
-- The [Tour of Convex](https://docs.convex.dev/get-started) for a thorough introduction to Convex principles.
-- The rest of [Convex docs](https://docs.convex.dev/) to learn about all Convex features.
-- [Stack](https://stack.convex.dev/) for in-depth articles on advanced topics.
-
-## Join the community
-
-Join thousands of developers building full-stack apps with Convex:
-
-- Join the [Convex Discord community](https://convex.dev/community) to get help in real-time.
-- Follow [Convex on GitHub](https://github.com/get-convex/), star and contribute to the open-source implementation of Convex.

@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-Nalar adalah platform pembelajaran adaptif yang memanfaatkan IBM Granite untuk memberikan pengalaman belajar personal seperti memiliki tutor pribadi. Platform ini menggunakan artificial intelligence untuk memahami gaya belajar siswa, mengidentifikasi knowledge gaps, dan memberikan penjelasan yang disesuaikan dengan kebutuhan individual.
+Nalar adalah platform pembelajaran adaptif yang memanfaatkan Generative AI untuk memberikan pengalaman belajar personal seperti memiliki tutor pribadi. Platform ini menggunakan artificial intelligence untuk memahami gaya belajar siswa, mengidentifikasi knowledge gaps, dan memberikan penjelasan yang disesuaikan dengan kebutuhan individual.
 
 ## Problem Statement
 
@@ -12,6 +12,8 @@ Nalar adalah platform pembelajaran adaptif yang memanfaatkan IBM Granite untuk m
 - **Knowledge gap identification**: Siswa sering tidak menyadari area yang perlu diperbaiki
 - **Lack of immediate feedback**: Feedback delayed menghambat proses pembelajaran yang efektif
 - **Passive learning experience**: Konten pembelajaran statis tidak engage siswa secara aktif
+- **Lack of engagement**: Siswa sering tidak terlibat aktif dalam proses pembelajaran
+- **Lack of structure**: Siswa sering tidak tahu bagaimana belajar secara efektif
 
 ### Target Pain Points
 - Siswa yang struggle dengan konsep kompleks tanpa guidance
@@ -65,12 +67,14 @@ Nalar adalah platform pembelajaran adaptif yang memanfaatkan IBM Granite untuk m
 ## Core Features Detailed
 
 ### 1. AI-Powered Tutor Chat
-**Deskripsi**: Interface conversational dengan AI tutor menggunakan IBM Granite
+**Deskripsi**: Interface conversational dengan AI tutor menggunakan Agentic AI
 **Functionality**:
 - Natural language processing untuk understand student questions
 - Context-aware responses berdasarkan learning history
 - Multi-modal explanations (text, mathematical notation, analogies)
 - Follow-up questions untuk ensure understanding
+- Menggunakan Multiple Resource untuk memberikan explanation yang lebih baik mencegah halusinasi
+- Interaktif kuis dengan immediate feedback di setiap soal
 
 **User Journey**:
 1. User mengetik pertanyaan: "Bagaimana cara menyelesaikan integral parsial?"
@@ -78,6 +82,7 @@ Nalar adalah platform pembelajaran adaptif yang memanfaatkan IBM Granite untuk m
 3. AI memberikan step-by-step explanation dengan examples
 4. User dapat ask follow-up questions untuk clarification
 5. AI tracks understanding level untuk future sessions
+6. User dapat meminta dan mengerjakan Quiz yang sesuai dengan pelajaran yang telah didapatkan
 
 ### 2. Adaptive Learning Assessment
 **Deskripsi**: Sistem yang mengassess knowledge level dan learning style
@@ -93,51 +98,12 @@ Nalar adalah platform pembelajaran adaptif yang memanfaatkan IBM Granite untuk m
 - **Learning Style Quiz**: Preferensi dalam menerima informasi
 - **Progress Tracking**: Visual representation of improvement
 
-### 3. Topic-Based Learning Modules
-**Deskripsi**: Structured learning sessions berdasarkan specific topics
+### 3. Learning Plans
+**Deskripsi**: Structured learning plans yang dibuat khusus dipersonalisasi untuk user
 **Functionality**:
-- Hierarchical topic organization (Subject → Chapter → Subtopic)
-- Prerequisite mapping untuk logical learning progression
-- Multiple explanation approaches untuk same concept
-- Integration dengan practice problems
-
-**Module Structure**:
-```
-Mathematics → Calculus → Derivatives
-├── Concept Introduction
-├── Visual Explanation
-├── Step-by-Step Examples
-├── Interactive Practice
-└── Assessment & Feedback
-```
-
-### 4. Personalized Dashboard
-**Deskripsi**: Central hub untuk tracking progress dan accessing features
-**Functionality**:
-- Learning progress visualization
-- Recent topics dan session history
-- Recommended learning path
-- Performance analytics dan insights
-
-**Dashboard Components**:
-- **Progress Overview**: Visual charts showing improvement trends
-- **Learning Streak**: Gamification element untuk consistency
-- **Topic Mastery**: Heat map showing strength/weakness areas
-- **Recommendations**: AI-suggested next topics berdasarkan performance
-
-### 5. Interactive Practice Generator
-**Deskripsi**: AI-generated practice problems dengan varying difficulty
-**Functionality**:
-- Dynamic problem generation berdasarkan topic
-- Adaptive difficulty berdasarkan performance
-- Immediate feedback dengan detailed solutions
-- Hint system untuk guided problem solving
-
-**Problem Types**:
-- **Multiple Choice**: Quick assessment dengan explanation
-- **Step-by-Step**: Guided problem solving dengan checkpoints
-- **Open-Ended**: Creative problem solving dengan AI evaluation
-- **Visual Problems**: Diagram-based questions untuk spatial learning
+- Learning Plans di generate berdasarkan parameter yang di dapatkan pada tahap onboarding
+- User dapat tracking progress belajar mereka 
+- User mendalami lebih dalam setiap plan menggunakan Ai Chat
 
 ### 6. Study Session Planner
 **Deskripsi**: AI-powered scheduling untuk optimal learning
@@ -169,22 +135,18 @@ Mathematics → Calculus → Derivatives
    ↓
 2. Sign Up/Login
    ↓
-3. Welcome Tour
+3. Welcome
    ↓
 4. Learning Style Assessment
    ↓
-5. Subject Selection
-   ↓
-6. Initial Knowledge Assessment
-   ↓
-7. Personalized Dashboard
+5. Rooms Creator (Home)
 ```
 
 ### Daily Learning Session
 ```
-1. Dashboard Login
+1. Login
    ↓
-2. Choose Learning Goal
+2. Choose Topic on Learning Plans
    ↓
 3. AI Tutor Interaction
    ↓
@@ -217,7 +179,7 @@ Mathematics → Calculus → Derivatives
 - Project setup dan development environment
 - Basic authentication system
 - Database schema design
-- IBM Granite API integration testing
+- Generative AI API integration testing
 
 ### Phase 2: Core Features (Hari 3-5)
 - AI tutor chat implementation
@@ -287,4 +249,4 @@ Mathematics → Calculus → Derivatives
 
 AI Study Buddy represents innovative approach dalam educational technology dengan memanfaatkan advanced AI capabilities untuk deliver personalized learning experience. Platform ini memiliki potential untuk significant impact dalam democratizing quality education dan improving learning outcomes secara global.
 
-Dengan focus pada user-centric design dan leveraging IBM Granite capabilities, aplikasi ini dapat menjadi compelling demonstration of AI application dalam educational sector sambil memenuhi criteria capstone project yang challenging namun achievable dalam timeframe 10 hari.
+Dengan focus pada user-centric design dan leveraging Generative AI capabilities, aplikasi ini dapat menjadi compelling demonstration of AI application dalam educational sector sambil memenuhi criteria capstone project yang challenging namun achievable dalam timeframe 10 hari.
