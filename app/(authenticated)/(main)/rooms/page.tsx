@@ -13,7 +13,7 @@ import { useQuery } from "convex/react"
 import { Calculator, Loader2, SendHorizonal, Type } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import React, { useState } from "react"
 type InputMode = 'text' | 'math';
 
 /**
@@ -49,6 +49,10 @@ export default function HomePage() {
         }
     }
 
+    const handlePromptTemplateClick = (prompt: string) => {
+        setPrompt(prompt);
+    }
+
     return (
         <Container className="relative overflow-hidden h-[calc(100vh-16px)]">
             <header className="flex h-16 shrink-0 items-center gap-2 px-4">
@@ -56,12 +60,10 @@ export default function HomePage() {
             </header>
             <MainContent>
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-12">
-                        <div className="inline-flex items-center justify-center font-bold mb-2 text-3xl text-primary">
-                            <span className="bg-primary/10 text-primary p-2 rounded-lg flex items-center justify-center aspect-square">
-                                N
-                            </span>
-                            <span className="ml-3">Nalar</span>
+                    <div className="text-center mb-12 space-y-4" >
+                        <div className="flex items-center gap-2 justify-center ">
+                            <div className="size-7 rounded-full bg-gradient-to-br from-violet-500 to-pink-500" />
+                            <h1 className="text-base font-bold md:text-3xl">Nalar</h1>
                         </div>
                         <p className="text-lg text-muted-foreground">
                             Hello, {currentUser?.username || "friend"}. What shall we explore today?
@@ -137,6 +139,13 @@ export default function HomePage() {
                         </form>
                     </div>
                 </div>
+                <div className="flex flex-wrap justify-center gap-2 mt-6 max-w-2xl mx-auto">
+
+                    {
+                        !mathAttachment && promptTemplateOptions.map(p => <PromptTemplate key={p.label} label={p.label} onClick={() => handlePromptTemplateClick(p.prompt)} />)
+                    }
+
+                </div>
             </MainContent>
             <Image
                 src="/assets/Waiting.svg"
@@ -146,5 +155,41 @@ export default function HomePage() {
                 className="mx-auto absolute bottom-0 left-1/2 -translate-x-1/2 z-0 translate-y-1/5"
             />
         </Container>
+    )
+}
+
+const promptTemplateOptions = [
+    {
+        label: "What is an integral?",
+        prompt: "Explain the concept of an integral in calculus with a simple example."
+    },
+    {
+        label: "How does photosynthesis work?",
+        prompt: "Describe the process of photosynthesis in plants."
+    },
+    {
+        label: "What is Newton's Second Law?",
+        prompt: "State and explain Newton's Second Law of Motion with an example."
+    },
+    {
+        label: "What are the states of matter?",
+        prompt: "List and describe the different states of matter."
+    },
+    {
+        label: "Explain Pythagoras' Theorem",
+        prompt: "What is Pythagoras' Theorem and how is it used in geometry?"
+    }
+]
+
+interface IPrompTemplateProps {
+    label: string
+    onClick: () => void
+}
+
+const PromptTemplate: React.FC<IPrompTemplateProps> = (props) => {
+    return (
+        <Button onClick={props.onClick} variant={"secondary"} className="rounded-full px-4 py-2 text-sm">
+            {props.label}
+        </Button>
     )
 }
