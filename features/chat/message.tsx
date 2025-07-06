@@ -23,7 +23,7 @@ interface MessageProps extends UIMessage {
  */
 export const Message: React.FC<MessageProps> = (props) => {
     const { data: user } = useQuery(convexQuery(api.users.queries.getCurrentUser, {}))
-    const { content, role, className, parts, status } = props;
+    const { content, role, className, parts, ...rest } = props;
     const [visibleText] = useSmoothText(content);
     const isUser = role === "user";
 

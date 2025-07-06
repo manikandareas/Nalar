@@ -5,6 +5,7 @@ import { embed } from "ai";
 import { components } from "./_generated/api";
 
 // Import the Nalar system prompt
+import { gatherRelevantResourceTool } from "./chat/agent";
 import { NALAR_SYSTEM_PROMPT } from "./instructions";
 import { updateKnowledgeGraphTool } from "./knowledge/agent";
 import { createQuizTool } from "./quizzes/agent";
@@ -40,6 +41,7 @@ export const nalarAgent = new Agent(components.agent, {
         },
     },
     tools: {
+        ['gather-relevant-resource']: gatherRelevantResourceTool,
         ["create-quiz"]: createQuizTool,
         ["update-knowledge-graph"]: updateKnowledgeGraphTool,
     },

@@ -41,13 +41,65 @@ export const StepsContainer = ({ parts }: { parts: UIMessagePart[] }) => {
                 }
                 if (part.type === 'tool-invocation') {
                     const title = `Call to ${part.toolInvocation.toolName}`;
-                    return (
-                        <Step key={index} title={title} isLast={isLast}>
-                            <div className="bg-gray-100 p-2 rounded-md flex items-center gap-2 text-gray-700 border border-gray-200">
-                                <pre className="text-xs whitespace-pre-wrap font-mono"><code>{JSON.stringify(part.toolInvocation.args, null, 2)}</code></pre>
-                            </div>
-                        </Step>
-                    );
+                    switch (part.toolInvocation.toolName) {
+                        case "gather-relevant-resource":
+                            const toolResults = (part.toolInvocation as { result: { content: string, description: string, og: string, title: string, url: string }[] }).result;
+                            if (!Array.isArray(toolResults) || toolResults.length === 0) {
+                                return (
+                                    <Step key={index} title="No resources found" isLast={isLast}>
+                                        <div className="text-gray-500">The search returned no results.</div>
+                                    </Step>
+                                );
+                            }
+                            return (
+                                <React.Fragment key={index}>
+                                    <Step title={`Searched`} isLast={false}>
+                                        <div className="bg-gray-100 p-2 rounded-md flex items-center gap-2 text-gray-700 border border-gray-200">
+                                            <pre className="text-xs whitespace-pre-wrap font-mono"><code>{JSON.stringify(part.toolInvocation.args, null, 2)}</code></pre>
+                                        </div>
+                                    </Step>
+                                    <Step title={`Synthesized ${toolResults.length} sources`} isLast={isLast}>
+                                        <div className="flex overflow-x-auto space-x-4 p-1 -m-2">
+                                            {toolResults.map((result, i) => {
+                                                try {
+                                                    const domain = new URL(result.url).hostname.replace('www.', '');
+                                                    return (
+                                                        <a
+                                                            key={i}
+                                                            href={result.url}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="block w-60 flex-shrink-0 border border-gray-200 rounded-lg p-3 bg-white hover:border-gray-300 hover:shadow-sm transition-all"
+                                                        >
+                                                            <div className="flex items-center mb-2">
+                                                                <img
+                                                                    src={result.og || `https://www.google.com/s2/favicons?domain=${domain}&sz=16`}
+                                                                    alt={`${domain} favicon`}
+                                                                    className="w-4 h-4 mr-2 rounded"
+                                                                />
+                                                                <span className="text-xs text-gray-500 truncate flex-1">{domain}</span>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2 text-gray-400"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                                            </div>
+                                                            <p className="text-sm text-gray-700 line-clamp-4">{result.description || result.title}</p>
+                                                        </a>
+                                                    );
+                                                } catch (e) {
+                                                    return null;
+                                                }
+                                            })}
+                                        </div>
+                                    </Step>
+                                </React.Fragment>
+                            );
+                        default:
+                            return (
+                                <Step key={index} title={title} isLast={isLast}>
+                                    <div className="bg-gray-100 p-2 rounded-md flex items-center gap-2 text-gray-700 border border-gray-200">
+                                        <pre className="text-xs whitespace-pre-wrap font-mono"><code>{JSON.stringify(part.toolInvocation.args, null, 2)}</code></pre>
+                                    </div>
+                                </Step>
+                            );
+                    }
                 }
                 return null;
             })}

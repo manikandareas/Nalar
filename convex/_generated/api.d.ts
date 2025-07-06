@@ -9,8 +9,10 @@
  */
 
 import type * as chat_actions from "../chat/actions.js";
+import type * as chat_agent from "../chat/agent.js";
 import type * as chat_mutations from "../chat/mutations.js";
 import type * as chat_queries from "../chat/queries.js";
+import type * as chat_validators from "../chat/validators.js";
 import type * as instructions from "../instructions.js";
 import type * as knowledge_agent from "../knowledge/agent.js";
 import type * as knowledge_mutations from "../knowledge/mutations.js";
@@ -46,8 +48,10 @@ import type {
  */
 declare const fullApi: ApiFromModules<{
   "chat/actions": typeof chat_actions;
+  "chat/agent": typeof chat_agent;
   "chat/mutations": typeof chat_mutations;
   "chat/queries": typeof chat_queries;
+  "chat/validators": typeof chat_validators;
   instructions: typeof instructions;
   "knowledge/agent": typeof knowledge_agent;
   "knowledge/mutations": typeof knowledge_mutations;

@@ -19,7 +19,6 @@ export const listThreadMessages = query({
         const paginated = await nalarAgent.listMessages(ctx, {
             threadId,
             paginationOpts,
-            // excludeToolMessages: false, // Tools message
         });
 
         return {
