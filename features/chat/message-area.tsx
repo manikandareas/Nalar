@@ -116,7 +116,7 @@ export const MessagesArea: React.FC<IMessageAreaProps> = ({ threadId }) => {
     }, [messages]);
 
     return (
-        <div className="w-full mb-28">
+        <div className="w-full mb-16">
             {/* Background pattern for chat area */}
             <div className="absolute inset-0 bg-background opacity-50 pointer-events-none" />
 

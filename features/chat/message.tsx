@@ -2,10 +2,9 @@
 
 import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { UIMessage, useSmoothText } from "@convex-dev/agent/react";
-import { Bot, Copy, User } from 'lucide-react';
+import { Bot, User } from 'lucide-react';
 import React, { useState } from "react";
 
 
@@ -21,7 +20,7 @@ interface MessageProps extends UIMessage {
  * Message component that displays a chat message with proper styling based on the sender
  */
 export const Message: React.FC<MessageProps> = (props) => {
-    const { content, role, className, parts } = props;
+    const { content, role, className, data } = props;
     const [visibleText] = useSmoothText(content);
     const isUser = role === "user";
     const [copied, setCopied] = useState(false);
@@ -32,14 +31,14 @@ export const Message: React.FC<MessageProps> = (props) => {
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
-    console.log({ parts })
-
+    console.log(data)
     return (
         <div className={cn("group relative mb-6 px-4", className)}>
             <div className={cn(
                 "flex gap-3 max-w-4xl mx-auto",
                 isUser ? "justify-end" : "justify-start"
             )}>
+
                 {/* AI Avatar - only shown for AI messages */}
                 {!isUser && (
                     <Avatar className="h-8 w-8 bg-teal-600 flex-shrink-0 mt-1 ring-2 ring-teal-100">
@@ -59,7 +58,7 @@ export const Message: React.FC<MessageProps> = (props) => {
                     )}
                 >
                     {/* Copy button - only visible on hover */}
-                    {!isUser && (
+                    {/* {!isUser && (
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
@@ -76,7 +75,7 @@ export const Message: React.FC<MessageProps> = (props) => {
                                 </TooltipContent>
                             </Tooltip>
                         </TooltipProvider>
-                    )}
+                    )} */}
                     <div className={cn(
                         "text-sm sm:text-base leading-relaxed",
                         isUser ? "text-foreground" : "text-gray-800"
